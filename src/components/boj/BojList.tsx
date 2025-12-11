@@ -13,18 +13,14 @@ export default function BojList({ initialPosts, algoTags = [] }: { initialPosts:
     const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
     // Filters
-    const [selectedTiers, setSelectedTiers] = useState<string[]>([]);
+    // Diff. changed from categories (strings) to numeric range (0-30)
+    const [tierRange, setTierRange] = useState<[number, number]>([0, 30]);
+
     const [selectedSources, setSelectedSources] = useState<string[]>([]);
     const [stepRange, setStepRange] = useState<[number, number]>([1, 35]);
     const [selectedAlgoTags, setSelectedAlgoTags] = useState<string[]>([]);
 
     // Handlers
-    const handleToggleTier = (tier: string) => {
-        setSelectedTiers(prev =>
-            prev.includes(tier) ? prev.filter(t => t !== tier) : [...prev, tier]
-        );
-    };
-
     const handleToggleSource = (source: string) => {
         setSelectedSources(prev =>
             prev.includes(source) ? prev.filter(s => s !== source) : [...prev, source]
@@ -50,13 +46,8 @@ export default function BojList({ initialPosts, algoTags = [] }: { initialPosts:
             );
         }
 
-        // 2. Filter by Tiers
-        if (selectedTiers.length > 0) {
-            result = result.filter(p => {
-                const tierChar = p.tier.charAt(0).toLowerCase();
-                return selectedTiers.includes(tierChar);
-            });
-        }
+        // 2. Filter by Tier Range
+        result = result.filter(p => p.tierSort >= tierRange[0] && p.tierSort <= tierRange[1]);
 
         // 3. Filter by Sources
         if (selectedSources.length > 0) {
@@ -106,7 +97,7 @@ export default function BojList({ initialPosts, algoTags = [] }: { initialPosts:
         });
 
         return result;
-    }, [initialPosts, search, sortBy, sortOrder, selectedTiers, selectedSources, stepRange, selectedAlgoTags]);
+    }, [initialPosts, search, sortBy, sortOrder, tierRange, selectedSources, stepRange, selectedAlgoTags]);
 
     return (
         <div className={styles.container}>
@@ -124,8 +115,8 @@ export default function BojList({ initialPosts, algoTags = [] }: { initialPosts:
                 onSortChange={setSortBy}
                 sortOrder={sortOrder}
                 onSortOrderChange={setSortOrder}
-                selectedTiers={selectedTiers}
-                onToggleTier={handleToggleTier}
+                tierRange={tierRange}
+                onTierRangeChange={setTierRange}
                 selectedSources={selectedSources}
                 onToggleSource={handleToggleSource}
                 stepRange={stepRange}

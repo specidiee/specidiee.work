@@ -16,27 +16,18 @@ type Props = {
     onSortChange: (val: SortOption) => void;
     sortOrder: SortOrder;
     onSortOrderChange: (val: SortOrder) => void;
-
-    selectedTiers: string[];
-    onToggleTier: (tier: string) => void;
+    
+    tierRange: [number, number];
+    onTierRangeChange: (range: [number, number]) => void;
     selectedSources: string[];
     onToggleSource: (source: string) => void;
     stepRange: [number, number];
     onStepRangeChange: (range: [number, number]) => void;
-
+    
     algoTags?: AlgoTag[];
     selectedAlgoTags?: string[];
     onToggleAlgoTag?: (tagId: string) => void;
 };
-
-const TIERS = [
-    { id: 'b', label: 'Bronze', color: '#cd7f32' },
-    { id: 's', label: 'Silver', color: '#435f7a' },
-    { id: 'g', label: 'Gold', color: '#ec9a00' },
-    { id: 'p', label: 'Platinum', color: '#27e2a4' },
-    { id: 'd', label: 'Diamond', color: '#00b4fc' },
-    { id: 'r', label: 'Ruby', color: '#ff0062' },
-];
 
 const SOURCES = [
     { id: 'c', label: 'CLASS' },
@@ -79,26 +70,26 @@ const ArrowUpIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="
 const ArrowDownIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>;
 
 
-export default function ControlPanel({
-    search,
-    onSearchChange,
-    sortBy,
+export default function ControlPanel({ 
+    search, 
+    onSearchChange, 
+    sortBy, 
     onSortChange,
-    sortOrder,
+    sortOrder, 
     onSortOrderChange,
-    selectedTiers,
-    onToggleTier,
+    tierRange,
+    onTierRangeChange,
     selectedSources,
     onToggleSource,
     stepRange,
     onStepRangeChange,
     algoTags = [],
     selectedAlgoTags = [],
-    onToggleAlgoTag = () => { }
+    onToggleAlgoTag = () => {}
 }: Props) {
     const [isFilterExpanded, setIsFilterExpanded] = useState(false);
 
-    const activeFilterCount = selectedTiers.length + selectedSources.length + (stepRange[0] > 1 || stepRange[1] < 35 ? 1 : 0) + selectedAlgoTags.length;
+    const activeFilterCount = (tierRange[0] > 0 || tierRange[1] < 30 ? 1 : 0) + selectedSources.length + (stepRange[0] > 1 || stepRange[1] < 35 ? 1 : 0) + selectedAlgoTags.length;
 
     return (
         <div className={styles.panel}>
@@ -133,7 +124,7 @@ export default function ControlPanel({
                         </select>
                     </div>
 
-                    <button
+                    <button 
                         className={styles.iconButton}
                         onClick={() => onSortOrderChange(sortOrder === 'asc' ? 'desc' : 'asc')}
                         title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
@@ -141,11 +132,11 @@ export default function ControlPanel({
                         {sortOrder === 'asc' ? <ArrowUpIcon /> : <ArrowDownIcon />}
                     </button>
 
-                    <button
+                    <button 
                         className={`${styles.iconButton} ${isFilterExpanded || activeFilterCount > 0 ? styles.active : ''}`}
                         onClick={() => setIsFilterExpanded(!isFilterExpanded)}
                         title="Toggle Filters"
-                    >
+                    >   
                         <div className={styles.filterBadge}>
                             <FilterIcon />
                             {activeFilterCount > 0 && (
@@ -159,23 +150,27 @@ export default function ControlPanel({
             {/* Filter Panel */}
             {isFilterExpanded && (
                 <div className={styles.filterPanel}>
-                    {/* Tiers */}
+                    {/* Tier Range (0-30) */}
                     <div className={styles.filterGroup}>
-                        <h4>Difficulty Tier</h4>
-                        <div className={styles.chipGrid}>
-                            {TIERS.map(tier => {
-                                const isActive = selectedTiers.includes(tier.id);
-                                return (
-                                    <button
-                                        key={tier.id}
-                                        className={`${styles.chip} ${isActive ? styles.active : ''}`}
-                                        onClick={() => onToggleTier(tier.id)}
-                                        style={isActive ? { borderColor: tier.color, color: tier.color, background: `rgba(${parseInt(tier.color.slice(1, 3), 16)}, ${parseInt(tier.color.slice(3, 5), 16)}, ${parseInt(tier.color.slice(5, 7), 16)}, 0.15)` } : {}}
-                                    >
-                                        {tier.label}
-                                    </button>
-                                );
-                            })}
+                        <h4>Difficulty (0-30)</h4>
+                        <div className={styles.rangeInputs}>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="30"
+                                value={tierRange[0]}
+                                onChange={(e) => onTierRangeChange([parseInt(e.target.value) || 0, tierRange[1]])}
+                                className={styles.numberInput}
+                            />
+                            <span className={styles.rangeSeparator}>-</span>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="30"
+                                value={tierRange[1]}
+                                onChange={(e) => onTierRangeChange([tierRange[0], parseInt(e.target.value) || 30])}
+                                className={styles.numberInput}
+                            />
                         </div>
                     </div>
 
@@ -199,18 +194,18 @@ export default function ControlPanel({
                     <div className={styles.filterGroup}>
                         <h4>Step Range</h4>
                         <div className={styles.rangeInputs}>
-                            <input
-                                type="number"
-                                min="1"
+                            <input 
+                                type="number" 
+                                min="1" 
                                 max="35"
                                 value={stepRange[0]}
                                 onChange={(e) => onStepRangeChange([parseInt(e.target.value) || 1, stepRange[1]])}
                                 className={styles.numberInput}
                             />
                             <span className={styles.rangeSeparator}>-</span>
-                            <input
-                                type="number"
-                                min="1"
+                            <input 
+                                type="number" 
+                                min="1" 
                                 max="35"
                                 value={stepRange[1]}
                                 onChange={(e) => onStepRangeChange([stepRange[0], parseInt(e.target.value) || 35])}
@@ -218,7 +213,7 @@ export default function ControlPanel({
                             />
                         </div>
                     </div>
-
+                    
                     {/* Algorithm Tags */}
                     {algoTags && algoTags.length > 0 && (
                         <div className={styles.filterGroup} style={{ gridColumn: '1 / -1' }}>
