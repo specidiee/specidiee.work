@@ -9,6 +9,7 @@ import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import YouTube from '@/components/mdx/YouTube';
 import Callout from '@/components/mdx/Callout';
+import CodeBlock from '@/components/mdx/CodeBlock';
 
 import type { Metadata } from 'next';
 
@@ -88,7 +89,7 @@ export default async function BlogPost({ params }: Props) {
                     options={{ parseFrontmatter: true, mdxOptions: mdxOptions as any }}
                     components={{
                         // Custom components can be added here
-                        // pre: CustomPre, // For copy button
+                        pre: CodeBlock, // For copy button
                         YouTube,
                         Callout,
                     }}

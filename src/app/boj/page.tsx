@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllBojPosts } from '@/lib/boj';
+import { getAllBojPosts, getAlgorithmTags } from '@/lib/boj';
 import BojList from '@/components/boj/BojList';
 import { Metadata } from 'next';
 
@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 
 export default function BojPage() {
     const posts = getAllBojPosts();
+    const algoTags = getAlgorithmTags();
 
     return (
         <main style={{ minHeight: '100vh', padding: '6rem 2rem 4rem' }}>
@@ -17,7 +18,7 @@ export default function BojPage() {
                  or replicate. If styles global has .stars, it works. 
                  Let's assume global stars for consistency or just strict layout.
              */}
-            <BojList initialPosts={posts} />
+            <BojList initialPosts={posts} algoTags={algoTags} />
         </main>
     );
 }

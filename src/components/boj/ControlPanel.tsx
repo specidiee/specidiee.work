@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './ControlPanel.module.css';
+import { AlgoTag } from '@/lib/boj';
 
 // Icons are defined locally below to avoid dependencies
 
@@ -22,6 +23,10 @@ type Props = {
     onToggleSource: (source: string) => void;
     stepRange: [number, number];
     onStepRangeChange: (range: [number, number]) => void;
+
+    algoTags?: AlgoTag[];
+    selectedAlgoTags?: string[];
+    onToggleAlgoTag?: (tagId: string) => void;
 };
 
 const TIERS = [
@@ -86,11 +91,14 @@ export default function ControlPanel({
     selectedSources,
     onToggleSource,
     stepRange,
-    onStepRangeChange
+    onStepRangeChange,
+    algoTags = [],
+    selectedAlgoTags = [],
+    onToggleAlgoTag = () => { }
 }: Props) {
     const [isFilterExpanded, setIsFilterExpanded] = useState(false);
 
-    const activeFilterCount = selectedTiers.length + selectedSources.length + (stepRange[0] > 1 || stepRange[1] < 35 ? 1 : 0);
+    const activeFilterCount = selectedTiers.length + selectedSources.length + (stepRange[0] > 1 || stepRange[1] < 35 ? 1 : 0) + selectedAlgoTags.length;
 
     return (
         <div className={styles.panel}>
@@ -210,6 +218,24 @@ export default function ControlPanel({
                             />
                         </div>
                     </div>
+
+                    {/* Algorithm Tags */}
+                    {algoTags && algoTags.length > 0 && (
+                        <div className={styles.filterGroup} style={{ gridColumn: '1 / -1' }}>
+                            <h4>Algorithm</h4>
+                            <div className={styles.chipGrid}>
+                                {algoTags.map(tag => (
+                                    <button
+                                        key={tag.id}
+                                        className={`${styles.chip} ${selectedAlgoTags.includes(tag.id) ? styles.active : ''}`}
+                                        onClick={() => onToggleAlgoTag(tag.id)}
+                                    >
+                                        {tag.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

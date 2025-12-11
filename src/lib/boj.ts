@@ -23,15 +23,35 @@ const CONTENT_DIR = path.join(process.cwd(), 'content');
 // Lazy load data
 let tagToStepMap: Map<string, number> | null = null;
 let stepNames: string[] = []; // 0-indexed, but steps are 1-based.
+// New: tag name (eng) -> kor name
+let tagToKorMap: Map<string, string> | null = null;
+
+// Type for algo tag
+export type AlgoTag = {
+    id: string;
+    label: string;
+};
+
+export function getAlgorithmTags(): AlgoTag[] {
+    loadStepData();
+    const result: AlgoTag[] = [];
+    if (tagToKorMap) {
+        tagToKorMap.forEach((val, key) => {
+            result.push({ id: key, label: val });
+        });
+    }
+    return result;
+}
 
 function loadStepData() {
-    if (tagToStepMap) return;
+    if (tagToStepMap && tagToKorMap) return;
 
     try {
         const fileContents = fs.readFileSync(path.join(CONTENT_DIR, 'boj-step.yaml'), 'utf8');
         const doc = yaml.load(fileContents) as BojStepData;
 
         tagToStepMap = new Map<string, number>();
+        tagToKorMap = new Map<string, string>();
         stepNames = ['Unclassified'];
 
         if (doc.step && Array.isArray(doc.step)) {
@@ -45,8 +65,12 @@ function loadStepData() {
                 if (Array.isArray(tagsList)) {
                     tagsList.forEach(tagEntry => {
                         const tagName = Object.keys(tagEntry)[0];
+                        const korName = tagEntry[tagName];
+
                         // Map tag to step number
                         tagToStepMap!.set(tagName, stepNum);
+                        // Map tag to Korean Name
+                        tagToKorMap!.set(tagName, korName);
                     });
                 }
             });
@@ -54,6 +78,7 @@ function loadStepData() {
     } catch (e) {
         console.error("Failed to load boj-step.yaml", e);
         tagToStepMap = new Map();
+        tagToKorMap = new Map();
     }
 }
 
