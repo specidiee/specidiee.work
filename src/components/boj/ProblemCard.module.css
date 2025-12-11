@@ -51,16 +51,7 @@
     margin: 0;
     font-size: 1.25rem;
     line-height: 1.4;
-}
-
-.titleLink {
-    text-decoration: none;
     color: var(--text-primary);
-    transition: color 0.2s;
-}
-
-.titleLink:hover {
-    color: var(--text-accent);
 }
 
 .footer {

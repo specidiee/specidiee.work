@@ -54,9 +54,7 @@ export default function ProblemCard({ post }: Props) {
                     )}
                 </div>
                 <h3 className={styles.title}>
-                    <Link href={`/blog/${post.slug}`} className={styles.titleLink}>
-                        {title}
-                    </Link>
+                    {problemId}. {title.match(/\((.*?)\)$/)?.[1] || title}
                 </h3>
             </div>
 
