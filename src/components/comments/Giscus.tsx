@@ -16,17 +16,17 @@ export default function Comments() {
         <div className="w-full mt-10">
             <Giscus
                 id="comments"
-                repo="specidiee/specidiee.work" // Placeholder
-                repoId="R_kgDOL..." // Placeholder
+                repo="specidiee/specidiee.work"
+                repoId="R_kgDOQm21uw"
                 category="Announcements"
-                categoryId="DIC_kwDOL..." // Placeholder
+                categoryId="DIC_kwDOQm21u84CzqXp"
                 mapping="pathname"
                 term="Welcome to my blog!"
                 reactionsEnabled="1"
                 emitMetadata="0"
-                inputPosition="top"
-                theme="dark_dimmed" // Matches our cosmic theme well
-                lang="en"
+                inputPosition="bottom"
+                theme="dark_dimmed"
+                lang="ko"
                 loading="lazy"
             />
         </div>
