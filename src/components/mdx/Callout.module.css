@@ -1,0 +1,76 @@
+.container {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    border-radius: 24px;
+    /* More curved as requested */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.container:hover {
+    transform: scale(1.01);
+}
+
+/* Background Gradients */
+.info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border-left: 6px solid #3b82f6;
+    box-shadow: 0 4px 30px rgba(59, 130, 246, 0.1);
+}
+
+.warning {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(234, 179, 8, 0.05) 100%);
+    border-left: 6px solid #eab308;
+    box-shadow: 0 4px 30px rgba(234, 179, 8, 0.1);
+}
+
+.danger {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+    border-left: 6px solid #ef4444;
+    box-shadow: 0 4px 30px rgba(239, 68, 68, 0.1);
+}
+
+.icon {
+    font-size: 1.5rem;
+    opacity: 0.8;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 2px;
+}
+
+.content {
+    flex: 1;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.info .title,
+.info .icon {
+    color: #60a5fa;
+}
+
+.warning .title,
+.warning .icon {
+    color: #facc15;
+}
+
+.danger .title,
+.danger .icon {
+    color: #f87171;
+}
+
+.body {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}

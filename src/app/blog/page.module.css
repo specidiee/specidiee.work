@@ -1,0 +1,137 @@
+.main {
+    min-height: 100vh;
+    padding: 8rem 2rem 4rem;
+    max-width: var(--container-width);
+    margin: 0 auto;
+}
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    gap: 2rem;
+}
+
+/* Card Container */
+.card {
+    text-decoration: none;
+    display: flex;
+    /* Horizontal Layout */
+    align-items: stretch;
+    /* Stretch image to height */
+    overflow: hidden;
+    padding: 0 !important;
+    /* Reset default glass-card padding to handle layout manually if needed, or use specific structure */
+    /* Actually glass-card has padding 1.5rem. We can keep it or manage it inside.
+     Let's override padding to 0 and use internal padding for content.
+  */
+}
+
+.cardContentWrapper {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: color var(--transition-fast);
+    margin: 0;
+}
+
+.card:hover .cardTitle {
+    color: var(--text-accent);
+}
+
+.cardDate {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    margin-left: 1rem;
+    padding-top: 0.3rem;
+}
+
+.description {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    /* Push footer down */
+}
+
+.footer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 9999px;
+    color: var(--text-accent);
+}
+
+.layoutBadge {
+    margin-left: auto;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-glass);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* Thumbnail on the Right */
+.thumbnailWrapper {
+    position: relative;
+    width: 240px;
+    /* Fixed width for consistency */
+    min-height: 100%;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border-glass);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail {
+    object-fit: cover;
+}
+
+@media (max-width: 640px) {
+
+    /* Keep horizontal layout */
+    /* .card rule removed as it was empty */
+
+    .thumbnailWrapper {
+        width: 120px;
+        /* Smaller width for mobile */
+        height: auto;
+        /* Let it stretch or fix height? Inherit min-height 100% from main rule */
+        /* Remove the border reset so it keeps left border */
+    }
+
+    .cardContentWrapper {
+        padding: 1rem;
+        /* Slightly smaller padding */
+    }
+
+    .cardTitle {
+        font-size: 1.2rem;
+    }
+}

@@ -1,0 +1,55 @@
+:root {
+  /* Cosmic Palette */
+  --bg-space: #050510;
+  --bg-card: rgba(20, 20, 40, 0.6);
+  --bg-card-hover: rgba(30, 30, 60, 0.8);
+  
+  --text-primary: #e0e0ff;
+  --text-secondary: #a0a0c0;
+  --text-accent: #00f3ff;
+  
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --glow-primary: 0 0 20px rgba(0, 243, 255, 0.3);
+  
+  /* Academic/Readable Colors */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Merriweather', serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Spacing */
+  --container-width: 800px;
+  --container-wide: 1200px;
+  
+  /* Animations */
+  --transition-fast: 0.2s ease;
+  --transition-slow: 0.5s ease;
+}
+
+[data-theme='light'] {
+  /* In case we support light mode later, but Space is usually dark. 
+     Maybe an "Earth" mode? For now, stick to Dark being default. */
+  --bg-space: #f8f9fa;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555;
+}
+
+body {
+  background-color: var(--bg-space);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-space);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-accent);
+  border-radius: 4px;
+}

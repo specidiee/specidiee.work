@@ -1,0 +1,45 @@
+---
+title: "Feature Guide: Thumbnails & Components"
+date: "2024-12-13"
+tags: ["Guide", "Features"]
+thumbnail: "/images/space-rabbit.png"
+description: "How to use thumbnails and custom JSX components in this blog."
+---
+
+# Thumbnails
+To add a thumbnail, simply add a `thumbnail` field to the frontmatter of your `.mdx` file:
+
+```yaml
+---
+title: "My Post"
+thumbnail: "/images/my-image.png"
+---
+```
+Ensure the image exists in the `public/images/` folder.
+
+# Custom Components
+
+## Callouts
+Use the `<Callout>` component to highlight information.
+
+<Callout type="info" title="Note">
+  This is an info callout.
+</Callout>
+
+<Callout type="warning" title="Warning">
+  This is a warning!
+</Callout>
+
+<Callout type="danger" title="Danger">
+  Critical system failure imminent.
+</Callout>
+
+## YouTube Embeds
+Use the `<YouTube>` component with a video ID.
+
+<YouTube id="dQw4w9WgXcQ" />
+
+## LaTeX Math
+$$
+f(x) = \int_{-\infty}^\infty \hat f(\xi)\,e^{2\pi i \xi x} \,d\xi
+$$

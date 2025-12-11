@@ -1,0 +1,226 @@
+step:
+- 프로그래밍 기초:
+  - implementation: 구현
+  - simulation: 시뮬레이션
+  - math: 수학
+  - arithmetic: 사칙연산
+  - string: 문자열
+- 알고리즘 기초:
+  - sorting: 정렬
+  - bruteforcing: 브루트포스 알고리즘
+  - ad_hoc: 애드 혹
+  - constructive: 해 구성하기
+  - case_work: 많은 조건 분기
+  - precomputation: 런타임 전의 전처리
+  - randomization: 무작위화
+- 자료 구조 1:
+  - set: 집합과 맵
+  - stack: 스택
+  - queue: 큐
+  - deque: 덱
+  - bitmask: 비트마스킹
+- 수학 1:
+  - number_theory: 정수론
+  - primality_test: 소수 판정
+  - euclidean: 유클리드 호제법
+  - prime_factorization: 소인수분해
+  - sieve: 에라토스테네스의 체
+  - combinatorics: 조합론
+- 분할 정복 기초:
+  - recursion: 재귀
+  - binary_search: 이분 탐색
+  - divide_and_conquer: 분할 정복
+  - parametric_search: 매개 변수 탐색
+- 다이나믹 프로그래밍 1:
+  - dp: 다이나믹 프로그래밍
+  - prefix_sum: 누적 합
+  - lis: 가장 긴 증가하는 부분 수열
+- 그리디 알고리즘:
+  - greedy: 그리디 알고리즘
+  - priority_queue: 우선순위 큐
+- 탐색 기초:
+  - backtracking: 백트래킹
+  - two_pointers: 투 포인터
+  - sliding_window: 슬라이딩 윈도우
+- 그래프 탐색:
+  - dfs: 깊이 우선 탐색
+  - bfs: 너비 우선 탐색
+- 다이나믹 프로그래밍 2:
+  - tree: 트리
+  - dp_tree: 트리에서의 다이나믹 프로그래밍
+  - dag: 방향 비순환 그래프
+  - topological_sort: 위상 정렬
+  - functional_graph: 함수형 그래프
+- 최단 경로:
+  - shortest_path: 최단 경로
+- 최소 스패닝 트리:
+  - disjoint_set: 분리 집합
+  - mst: 최소 스패닝 트리
+- 정수론 1:
+  - crt: 중국인의 나머지 정리
+  - exponentiation_by_squaring: 분할 정복을 이용한 거듭제곱
+  - modular_multiplicative_inverse: 모듈로 곱셈 역원
+  - flt: 페르마의 소정리
+  - harmonic_number: 조화수
+- 수학 2:
+  - pigeonhole_principle: 비둘기집 원리
+  - inclusion_and_exclusion: 포함 배제의 원리
+  - permutation_cycle_decomposition: 순열 사이클 분할
+  - linearity_of_expectation: 기댓값의 선형성
+  - game_theory: 게임 이론
+  - geometry: 기하학
+  - polygon_area: 다각형의 넓이
+  - line_intersection: 선분 교차 판정
+  - sweeping: 스위핑
+- 다이나믹 프로그래밍 3:
+  - traceback: 역추적
+  - lcs: 가장 긴 공통 부분 수열
+  - knapsack: 배낭 문제
+  - difference_array: 차분 배열 트릭
+  - dp_bitfield: 비트필드에서의 다이나믹 프로그래밍
+- 트리 1:
+  - tree_diameter: 트리의 지름
+  - trie: 트라이
+  - sparse_table: 희소 배열
+  - lca: 최소 공통 조상
+  - rerooting: 트리에서의 전방향 다이나믹 프로그래밍
+- 세그먼트 트리 1:
+  - segtree: 세그먼트 트리
+- 고급 문자열 알고리즘:
+  - kmp: KMP
+  - manacher: 매내처
+  - z: Z
+  - rabin_karp: 라빈-카프
+  - suffix_array: 접미사 배열과 LCP 배열
+  - aho_corasick: 아호-코라식
+  - palindrome_tree: 회문 트리
+  - suffix_tree: 접미사 트리
+- 기하학 1:
+  - angle_sorting: 각도 정렬
+  - convex_hull: 볼록 껍질
+  - point_in_convex_polygon: 볼록 다각형 내부의 점 판정
+  - rotating_calipers: 회전하는 캘리퍼스
+  - geometry_hyper: 4차원 이상의 기하학
+- 그래프의 연결성:
+  - scc: 강한 연결 요소
+  - 2_sat: 2-sat
+  - articulation: 단절점과 단절선
+  - eulerian_path: 오일러 경로
+  - bcc: 이중 연결 요소
+  - cactus: 선인장
+  - offline_dynamic_connectivity: 오프라인 동적 연결성 판정
+- 세그먼트 트리 2:
+  - lazyprop: 느리게 갱신되는 세그먼트 트리
+  - multi_segtree: 다차원 세그먼트 트리
+  - merge_sort_tree: 머지 소트 트리
+  - pst: 퍼시스턴트 세그먼트 트리
+- 트리 2:
+  - euler_tour_technique: 오일러 투어 테크닉
+  - hld: Heavy-light 분할
+  - centroid_decomposition: 센트로이드 분할
+  - centroid: 센트로이드
+  - tree_compression: 트리 압축
+  - tree_decomposition: 트리 분할
+  - tree_isomorphism: 트리 동형 사상
+- 자료 구조 2:
+  - offline_queries: 오프라인 쿼리
+  - smaller_to_larger: 작은 집합에서 큰 집합으로 합치는 테크닉
+  - sqrt_decomposition: 제곱근 분할법
+  - mo: mo's
+  - deque_trick: 덱을 이용한 구간 최댓값 트릭
+  - bitset: 비트 집합
+- 다이나믹 프로그래밍 4:
+  - dp_deque: 덱을 이용한 다이나믹 프로그래밍
+  - dp_digit: 자릿수를 이용한 다이나믹 프로그래밍
+  - dp_sum_of_subsets: 부분집합의 합 다이나믹 프로그래밍
+  - cht: 볼록 껍질을 이용한 최적화
+  - divide_and_conquer_optimization: 분할 정복을 이용한 최적화
+  - berlekamp_massey: 벌리캠프-매시
+- 그래프의 유량:
+  - flow: 최대 유량
+  - bipartite_matching: 이분 매칭
+  - mcmf: 최소 비용 최대 유량
+  - mfmc: 최소 유량 최대 컷 정리
+  - stable_marriage: 안정 결혼 문제
+  - circulation: 서큘레이션
+- 탐색과 분할 정복 고급:
+  - mitm: 중간에서 만나기
+  - bidirectional_search: 양방향 탐색
+  - ternary_search: 삼분 탐색
+  - pbs: 병렬 이분 탐색
+  - cdq: cdq 분할 정복
+- 수학 3:
+  - lucas: 뤼카 정리
+  - burnside: 번사이드 보조정리
+  - generating_function: 생성 함수
+  - sprague_grundy: 스프라그-그런디 정리
+  - fft: 고속 푸리에 변환
+  - linear_algebra: 선형대수학
+  - gaussian_elimination: 가우스 소거법
+  - xor_basis: 배타적 논리합 기저 (gf(2))
+  - calculus: 미적분학
+  - green: 그린 정리
+  - statistics: 통계학
+  - physics: 물리학
+- 정수론 2:
+  - euler_phi: 오일러 피 함수
+  - extended_euclidean: 확장 유클리드 호제법
+  - mobius_inversion: 뫼비우스 반전 공식
+  - miller_rabin: 밀러-라빈 소수 판별법
+  - pollard_rho: 폴라드 로
+  - discrete_log: 이산 로그
+  - discrete_sqrt: 이산 제곱근
+  - floor_sum: 유리 등차수열의 내림 합
+  - lte: 지수승강 보조정리
+- 기하학 2:
+  - half_plane_intersection: 반평면 교집합
+  - euler_characteristic: 오일러 지표 (χ=V-E+F)
+  - point_in_non_convex_polygon: 오목 다각형 내부의 점 판정
+  - geometric_boolean_operations: 도형에서의 불 연산
+  - bulldozer: bulldozer 트릭
+  - voronoi: 보로노이 다이어그램
+  - delaunay: 델로네 삼각분할
+- 다이나믹 프로그래밍 5:
+  - dp_connection_profile: 커넥션 프로파일을 이용한 다이나믹 프로그래밍
+  - slope_trick: 함수 개형을 이용한 최적화
+  - aliens: Aliens 트릭
+  - monotone_queue_optimization: 단조 큐를 이용한 최적화
+  - knuth: 크누스 최적화
+  - bitset_lcs: 비트 집합을 이용한 최장 공통 부분 수열 최적화
+  - hirshberg: 히르쉬버그
+- 고급 그래프 이론:
+  - planar_graph: 평면 그래프
+  - hall: 홀의 결혼 정리
+  - hungarian: 헝가리안
+  - dual_graph: 쌍대 그래프
+  - general_matching: 일반적인 매칭
+  - chordal_graph: 현 그래프
+  - directed_mst: 유향 최소 스패닝 트리
+  - stoer_wagner: 스토어-바그너
+- 자료 구조 3:
+  - splay_tree: 스플레이 트리
+  - link_cut_tree: 링크/컷 트리
+  - cartesian_tree: 데카르트 트리
+  - li_chao_tree: 리-차오 트리
+  - beats: 세그먼트 트리 비츠
+  - top_tree: 탑 트리
+  - dominator_tree: 도미네이터 트리
+  - kinetic_segtree: 키네틱 세그먼트 트리
+  - rb_tree: 레드-블랙 트리
+- 수학 4:
+  - polynominal_interpolation: 다항식 보간법
+  - kitamasa: 다항식을 이용한 선형점화식 계산
+  - multipoint_evaluation: 다중 대입값 계산
+  - lgv: 린드스트롬-게셀-비엔노 보조정리
+  - numerical_analysis: 수치해석
+  - linear_programming: 선형 계획법
+  - duality: 쌍대성
+  - matroid: 매트로이드
+- 휴리스틱:
+  - heuristics: 휴리스틱
+  - min_closing_circle: 최소 외접원
+  - simulated_annealing: 담금질 기법
+  - gradient_descent: 경사 하강법
+- 미분류:
+  - knuth_x: 크누스 X
+  - dancing_links: 춤추는 링크
