@@ -1,0 +1,20 @@
+---
+title: "[백준] 24313 (알고리즘 수업 - 점근적 표기 1)"
+date: "2025-11-29"
+tags: ["PS", "BOJ", "tier:s5", "math"]
+thumbnail: "/images/boj-24313.jpeg"
+description: "Solving BOJ Problem 24313."
+recommendations: ["s"]
+---
+
+문제 상에서 요구하는 O(n)의 정의는 다음과 같습니다:
+$O(n)=\{f(n)|\forall n\ge n_0,\exists c>0,n_0>0\quad (f(n)\le cn)\}$
+
+$f(n)=a_1 n+a_0$이면, 주어진 $a_1,a_0,c,n_0$에 대해 f(n)이 O(n)의 정의를 만족할 조건은:
+$a_1\le c$ 그리고 $a_1 n_0+a_0\le cn_0$
+
+이것을 코드로 구현하면 됩니다.
+
+---
+
+처음 풀 때 어렵다고 느꼈는데, 직접 정리해 보니 생각보다 간단했습니다. Silver V 난이도 받을 만하네요...
