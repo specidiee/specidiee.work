@@ -49,12 +49,21 @@
 .cardTitle {
     font-size: 1.5rem;
     font-weight: 700;
-    transition: color var(--transition-fast);
     margin: 0;
+
+    /* Gradient Style */
+    background: linear-gradient(90deg, #60a5fa, #e879f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Transparent to show background */
+
+    transition: all 0.3s ease;
 }
 
 .card:hover .cardTitle {
-    color: var(--text-accent);
+    /* Glow effect instead of color change */
+    text-shadow: 0 0 15px rgba(232, 121, 249, 0.5);
 }
 
 .cardDate {
