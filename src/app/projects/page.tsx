@@ -23,7 +23,7 @@ export default function ProjectsPage() {
                 <Link href="/boj" className={`${styles.card} glass-card`}>
                     <div className={styles.imageWrapper}>
                         <Image
-                            src="/images/boj-archive.png"
+                            src="/images/boj-archive.jpeg"
                             alt="BOJ Archive"
                             fill
                             className={styles.image}

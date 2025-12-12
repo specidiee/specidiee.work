@@ -14,6 +14,13 @@
     /* Let clicks pass through empty areas */
 }
 
+.leftGroup {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    pointer-events: auto;
+}
+
 .logo {
     font-weight: 700;
     font-size: 1.25rem;

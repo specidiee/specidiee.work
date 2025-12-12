@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.dateInput {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-primary);
+    padding: 0.4rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color-scheme: dark;
+    /* Ensures calendar popup is dark mode if supported */
+}
+
+.dateInput:focus {
+    outline: none;
+    border-color: rgba(96, 165, 250, 0.5);
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.applyButton {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.applyButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.clearButton {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+}
+
+.clearButton:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}

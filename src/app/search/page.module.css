@@ -1,0 +1,132 @@
+.main {
+    min-height: 100vh;
+    padding: 8rem 2rem 4rem;
+    max-width: var(--container-width);
+    margin: 0 auto;
+}
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.bojLink {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 1rem;
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: 8px;
+    color: var(--text-secondary);
+}
+
+.bojLink a {
+    color: #60a5fa;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bojLink a:hover {
+    text-decoration: underline;
+}
+
+.grid {
+    display: grid;
+    gap: 2rem;
+}
+
+/* Card Container */
+.card {
+    text-decoration: none;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    padding: 0 !important;
+}
+
+.cardContentWrapper {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(90deg, #60a5fa, #e879f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: all 0.3s ease;
+}
+
+.card:hover .cardTitle {
+    text-shadow: 0 0 15px rgba(232, 121, 249, 0.5);
+}
+
+.cardDate {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    margin-left: 1rem;
+    padding-top: 0.3rem;
+}
+
+.description {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.footer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 9999px;
+    color: var(--text-accent);
+}
+
+.thumbnailWrapper {
+    position: relative;
+    width: 240px;
+    min-height: 100%;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border-glass);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail {
+    object-fit: cover;
+}
+
+@media (max-width: 640px) {
+    .thumbnailWrapper {
+        width: 120px;
+    }
+
+    .cardContentWrapper {
+        padding: 1rem;
+    }
+
+    .cardTitle {
+        font-size: 1.2rem;
+    }
+}
