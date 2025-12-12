@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import SearchInput from './SearchInput';
 import styles from './Navbar.module.css';
 
@@ -9,7 +10,9 @@ export default function Navbar() {
                 <Link href="/" className={`${styles.logo} text-gradient`}>
                     specidiee
                 </Link>
-                <SearchInput />
+                <Suspense fallback={null}>
+                    <SearchInput />
+                </Suspense>
             </div>
 
             <div className={styles.links}>
