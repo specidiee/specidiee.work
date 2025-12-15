@@ -31,7 +31,7 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
             setTitle(taskToEdit.title);
             setDescription(taskToEdit.description || '');
             setType(taskToEdit.type as any);
-            setPriority(taskToEdit.priority);
+            setPriority(taskToEdit.priority || 3);
             setEstimated(taskToEdit.estimated_minutes);
             setTravel((taskToEdit as any).travel_time_minutes || 0); // Set travel from taskToEdit
             setDeadline(taskToEdit.deadline ? taskToEdit.deadline.slice(0, 16) : '');

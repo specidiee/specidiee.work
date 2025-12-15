@@ -47,7 +47,7 @@ export async function POST() {
                 // If it's a new task, we need created_at. Upsert handles this if we include it? 
                 // Supabase upsert needs a conflict target. We'll verify this shortly.
             };
-        }).filter(Boolean);
+        }).filter((u): u is NonNullable<typeof u> => u !== null);
 
         if (upserts.length === 0) {
             return NextResponse.json({ message: 'No events to sync', count: 0 });
