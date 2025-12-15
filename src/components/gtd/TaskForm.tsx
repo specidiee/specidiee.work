@@ -1,16 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CreateTaskDTO } from '@/types/gtd';
+import { CreateTaskDTO, Task } from '@/types/gtd';
 import styles from './TaskForm.module.css';
 
 import { useToast } from '@/contexts/ToastContext';
-
-// Assuming Task is a type similar to CreateTaskDTO but with an id and status
-interface Task extends CreateTaskDTO {
-    id: string;
-    status: string;
-}
 
 export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated: () => void; taskToEdit?: CreateTaskDTO & { id: string } }) {
     const { showToast } = useToast();
