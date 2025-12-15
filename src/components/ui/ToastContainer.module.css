@@ -1,0 +1,45 @@
+.container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 1000;
+}
+
+.toast {
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    background: var(--bg-secondary, #1e1e1e);
+    color: var(--text-primary, #ffffff);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-size: 0.9rem;
+    cursor: pointer;
+    animation: slideIn 0.3s ease-out;
+    border-left: 4px solid transparent;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.success {
+    border-left-color: #10b981;
+}
+
+.error {
+    border-left-color: #ef4444;
+}
+
+.info {
+    border-left-color: #3b82f6;
+}

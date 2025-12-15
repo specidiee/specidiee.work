@@ -1,0 +1,130 @@
+.container {
+    max-width: 48rem;
+    /* max-w-2xl */
+    margin: 0 auto;
+    padding: 2rem;
+    padding-top: 6rem;
+    /* Space for navbar */
+    color: var(--foreground);
+    /* Assuming css var usage in globals, or fallback */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 700;
+}
+
+.backLink {
+    color: #3b82f6;
+    /* blue-500 */
+    text-decoration: none;
+}
+
+.backLink:hover {
+    text-decoration: underline;
+}
+
+.card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Dark mode support if parent has dark class or media query */
+@media (prefers-color-scheme: dark) {
+    .card {
+        background-color: #1f2937;
+        /* gray-800 */
+        color: #fff;
+    }
+
+    .backLink {
+        color: #60a5fa;
+        /* blue-400 */
+    }
+}
+
+:global(.dark) .card {
+    background-color: #1f2937;
+    color: #fff;
+}
+
+.section {
+    margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    /* text-xl */
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.description {
+    color: #4b5563;
+    /* gray-600 */
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+:global(.dark) .description {
+    color: #9ca3af;
+    /* gray-400 */
+}
+
+.buttonGroup {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.syncButton {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    color: white;
+    font-weight: 500;
+    background-color: #2563eb;
+    /* blue-600 */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.syncButton:hover {
+    background-color: #1d4ed8;
+    /* blue-700 */
+}
+
+.syncButton:disabled {
+    background-color: #9ca3af;
+    /* gray-400 */
+    cursor: not-allowed;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+    /* gray-200 */
+    margin: 1.5rem 0;
+}
+
+:global(.dark) .divider {
+    border-top-color: #374151;
+    /* gray-700 */
+}
+
+.placeholderText {
+    font-size: 0.875rem;
+    /* text-sm */
+    color: #6b7280;
+    /* gray-500 */
+}

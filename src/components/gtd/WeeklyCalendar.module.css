@@ -1,0 +1,152 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+    /* Fixed height for scroll */
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background-color: white;
+    overflow: hidden;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    /* Time labels + 7 days */
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.headerCell {
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    border-right: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+}
+
+.scrollArea {
+    overflow-y: auto;
+    flex: 1;
+    position: relative;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    position: relative;
+    /* Height determined by content (24h * 60px) */
+    height: 1440px;
+}
+
+.timeCol {
+    border-right: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    position: relative;
+}
+
+.timeLabel {
+    position: absolute;
+    top: -10px;
+    /* Adjust to center vertically on line */
+    width: 100%;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #6b7280;
+    transform: translateY(-50%);
+}
+
+.dayCol {
+    border-right: 1px solid #e5e7eb;
+    /* Vertical lines */
+    position: relative;
+    /* Horizontal lines for hours can be added with background image or pseudo elements */
+    background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 100% 60px;
+    /* 60px per hour */
+}
+
+.event {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 0.75rem;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.eventTitle {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.eventTime {
+    font-size: 0.7rem;
+    opacity: 0.9;
+}
+
+/* Fixed Tasks (GCal) */
+.fixed {
+    background-color: #f3f4f6;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+/* Flexible Tasks (Todos) */
+.flexible {
+    background-color: #dbeafe;
+    /* blue-100 */
+    color: #1e40af;
+    /* blue-800 */
+    border-color: #93c5fd;
+    z-index: 10;
+    /* Put flexible on top if conflict? or same z-index */
+}
+
+.flexible.postponed {
+    opacity: 0.6;
+}
+
+/* Dark mode */
+:global(.dark) .container {
+    background-color: #111827;
+    border-color: #374151;
+}
+
+:global(.dark) .header {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+:global(.dark) .headerCell {
+    border-color: #374151;
+    color: #e5e7eb;
+}
+
+:global(.dark) .timeCol {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+:global(.dark) .dayCol {
+    border-color: #374151;
+    background-image: linear-gradient(#374151 1px, transparent 1px);
+}
+
+:global(.dark) .fixed {
+    background-color: #374151;
+    color: #9ca3af;
+    border-color: #4b5563;
+}
+
+:global(.dark) .flexible {
+    background-color: #1e3a8a;
+    /* blue-900 */
+    color: #dbeafe;
+    border-color: #1d4ed8;
+}
