@@ -1,4 +1,5 @@
 import { addMinutes, format, parse, isBefore, isAfter, startOfDay, addDays } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 export interface TimeSlot {
     start: Date;
@@ -26,6 +27,7 @@ export function generateTimeSlots(
 ): TimeSlot[] {
     const slots: TimeSlot[] = [];
     const dayStart = startOfDay(date);
+    const TIMEZONE = 'Asia/Seoul';
 
     let currentTime = addMinutes(dayStart, startHour * 60);
     const endTime = addMinutes(dayStart, endHour * 60);
@@ -34,8 +36,9 @@ export function generateTimeSlots(
         const nextTime = addMinutes(currentTime, TIME_SLOT_DURATION);
 
         // Check if this slot overlaps with any excluded time
-        const slotStartStr = format(currentTime, 'HH:mm');
-        let slotEndStr = format(nextTime, 'HH:mm');
+        // Use KST for comparison against database times (which are effectively KST wall times)
+        const slotStartStr = formatInTimeZone(currentTime, TIMEZONE, 'HH:mm');
+        let slotEndStr = formatInTimeZone(nextTime, TIMEZONE, 'HH:mm');
 
         // Handle midnight wrapping for comparison: "00:00" should be "24:00" if it's the end of the day slot
         if (slotEndStr === '00:00') {
