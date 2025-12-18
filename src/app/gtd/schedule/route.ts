@@ -56,11 +56,11 @@ export async function POST(request: Request) {
         console.log(`Found ${fixedTasks.length} fixed tasks`);
         console.log(`Excluded Rules:`, JSON.stringify(excluded, null, 2));
 
-        // Generate slots for Today + 6 days (7 days total)
-        for (let i = 0; i < 7; i++) {
+        // Generate slots for Today + 27 days (28 days total)
+        for (let i = 0; i < 28; i++) {
             const day = new Date(now);
             day.setDate(now.getDate() + i);
-            const daySlots = generateTimeSlots(day, 8, 24, (excluded as any[]) || []);
+            const daySlots = generateTimeSlots(day, 0, 24, (excluded as any[]) || []);
             console.log(`Day ${i} (${day.toLocaleDateString()}): Generated ${daySlots.length} slots`);
             rawSlots.push(...daySlots);
         }

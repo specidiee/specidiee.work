@@ -64,6 +64,8 @@ export async function POST(request: Request) {
                     deadline: body.deadline,
                     travel_time_minutes: body.travel_time_minutes || 0,
                     updated_at: new Date().toISOString(),
+                    scheduled_start: body.scheduled_start,
+                    scheduled_end: body.scheduled_end
                 },
             ])
             .select()

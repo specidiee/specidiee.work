@@ -36,13 +36,23 @@ export const fetchCalendarEvents = async (timeMin: Date, timeMax: Date) => {
 
     const calendar = getGoogleCalendarClient();
 
-    const response = await calendar.events.list({
-        calendarId,
-        timeMin: timeMin.toISOString(),
-        timeMax: timeMax.toISOString(),
-        singleEvents: true,
-        orderBy: 'startTime',
-    });
+    let allEvents: any[] = [];
+    let pageToken: string | undefined = undefined;
 
-    return response.data.items || [];
+    do {
+        const response: any = await calendar.events.list({
+            calendarId,
+            timeMin: timeMin.toISOString(),
+            timeMax: timeMax.toISOString(),
+            singleEvents: true,
+            orderBy: 'startTime',
+            pageToken,
+        });
+
+        const items = response.data.items || [];
+        allEvents = allEvents.concat(items);
+        pageToken = response.data.nextPageToken;
+    } while (pageToken);
+
+    return allEvents;
 };

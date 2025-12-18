@@ -11,54 +11,30 @@ interface TaskListProps {
     onRefresh: () => void;
     onEdit: (task: Task) => void;
     onToggleStatus?: (task: Task) => void;
+    onDelete?: (id: string) => void;
+    onAdd?: () => void;
 }
 
-export default function TaskList({ tasks, onRefresh, onEdit, onToggleStatus }: TaskListProps) {
+export default function TaskList({ tasks, onRefresh, onEdit, onToggleStatus, onDelete, onAdd }: TaskListProps) {
     const { showToast } = useToast();
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this task?')) return;
-
-        try {
-            const res = await fetch(`/gtd/tasks/${id}`, { method: 'DELETE' });
-            if (res.ok) {
-                onRefresh();
-                showToast('Task deleted', 'info');
-            } else {
-                showToast('Failed to delete task', 'error');
-            }
-        } catch (e) {
-            console.error(e);
-            showToast('Error deleting task', 'error');
+    // Internal handleDelete removed. Using prop onDelete if available.
+    const handleDeleteClick = (id: string) => {
+        if (onDelete) {
+            onDelete(id);
+        } else {
+            console.warn('onDelete prop not provided');
         }
     };
 
 
-    const handleSchedule = async () => {
-        try {
-            const res = await fetch('/gtd/schedule', { method: 'POST' });
-            const data = await res.json();
-            showToast(`Scheduled ${data.scheduled} tasks, Postponed ${data.postponed} tasks`, 'success');
-            onRefresh();
-        } catch (e) {
-            showToast('Scheduling failed', 'error');
-        }
-    };
+
 
     // The statusColors object is no longer needed as CSS module classes are used directly.
     // It has been removed as per the instruction's implied change.
 
     return (
         <div className={styles.list}>
-            <div className={styles.header}>
-                <h2 className={styles.heading}>Current Tasks</h2>
-                <button
-                    onClick={handleSchedule}
-                    className={styles.scheduleButton}
-                >
-                    Run Auto-Schedule
-                </button>
-            </div>
 
             <div className={styles.taskList}> {/* Changed from styles.list to styles.taskList to avoid conflict with outer div */}
                 {tasks.map((task) => (
@@ -98,12 +74,20 @@ export default function TaskList({ tasks, onRefresh, onEdit, onToggleStatus }: T
                         </div>
                         <div className={styles.actions}>
                             <button onClick={() => onEdit(task)} className={styles.editButton}>Edit</button>
-                            <button onClick={() => handleDelete(task.id)} className={styles.deleteButton}>Delete</button>
+                            <button onClick={() => handleDeleteClick(task.id)} className={styles.deleteButton}>Delete</button>
                         </div>
                     </div>
                 ))}
                 {tasks.length === 0 && (
-                    <p className={styles.emptyState}>No tasks found. Add one above!</p>
+                    <p className={styles.emptyState}>No tasks found.</p>
+                )}
+                {onAdd && (
+                    <button
+                        onClick={onAdd}
+                        className={styles.addButton}
+                    >
+                        + Add Task
+                    </button>
                 )}
             </div>
         </div>

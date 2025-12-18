@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import { CreateTaskDTO, Task } from '@/types/gtd';
 import styles from './TaskForm.module.css';
-
+import { format } from 'date-fns';
 import { useToast } from '@/contexts/ToastContext';
 
-export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated: () => void; taskToEdit?: CreateTaskDTO & { id: string } }) {
+export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated: () => void; taskToEdit?: CreateTaskDTO & { id?: string } }) {
     const { showToast } = useToast();
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState('');
@@ -14,10 +14,11 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
     const [type, setType] = useState<'FLEXIBLE' | 'FIXED'>('FLEXIBLE');
     const [priority, setPriority] = useState(3);
     const [estimated, setEstimated] = useState(30);
-    const [travel, setTravel] = useState(0); // New state for travel
+    const [travel, setTravel] = useState(0);
+    const [scheduledStart, setScheduledStart] = useState('');
     const [deadline, setDeadline] = useState('');
     const [selectedPredecessors, setSelectedPredecessors] = useState<string[]>([]);
-
+    const [showPredecessors, setShowPredecessors] = useState(false);
     const [availableTasks, setAvailableTasks] = useState<Task[]>([]);
 
     useEffect(() => {
@@ -27,19 +28,24 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
             setType(taskToEdit.type as any);
             setPriority(taskToEdit.priority || 3);
             setEstimated(taskToEdit.estimated_minutes);
-            setTravel((taskToEdit as any).travel_time_minutes || 0); // Set travel from taskToEdit
-            setDeadline(taskToEdit.deadline ? taskToEdit.deadline.slice(0, 16) : '');
+            setTravel((taskToEdit as any).travel_time_minutes || 0);
+            setScheduledStart(taskToEdit.scheduled_start ? format(new Date(taskToEdit.scheduled_start), "yyyy-MM-dd'T'HH:mm") : '');
+            setDeadline(taskToEdit.deadline ? format(new Date(taskToEdit.deadline), "yyyy-MM-dd'T'HH:mm") : '');
             setSelectedPredecessors(taskToEdit.predecessors || []);
+            if (taskToEdit.predecessors && taskToEdit.predecessors.length > 0) {
+                setShowPredecessors(true);
+            }
         } else {
-            // Reset form if not editing
             setTitle('');
             setDescription('');
             setType('FLEXIBLE');
             setPriority(3);
             setEstimated(30);
-            setTravel(0); // Reset travel
+            setTravel(0);
+            setScheduledStart('');
             setDeadline('');
             setSelectedPredecessors([]);
+            setShowPredecessors(false);
         }
     }, [taskToEdit]);
 
@@ -78,13 +84,16 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
             estimated_minutes: estimated,
             travel_time_minutes: travel,
             deadline: deadline ? new Date(deadline).toISOString() : undefined,
+            scheduled_start: (type === 'FIXED' && scheduledStart) ? new Date(scheduledStart).toISOString() : undefined,
+            scheduled_end: (type === 'FIXED' && scheduledStart) ? new Date(new Date(scheduledStart).getTime() + estimated * 60000).toISOString() : undefined,
             predecessors: selectedPredecessors,
-            status: taskToEdit ? undefined : 'TODO'
+            status: (taskToEdit && taskToEdit.id) ? undefined : 'TODO'
         };
 
         try {
-            const url = taskToEdit ? `/gtd/tasks/${taskToEdit.id}` : '/gtd/tasks';
-            const method = taskToEdit ? 'PUT' : 'POST';
+            const isEdit = taskToEdit && taskToEdit.id;
+            const url = isEdit ? `/gtd/tasks/${taskToEdit.id}` : '/gtd/tasks';
+            const method = isEdit ? 'PUT' : 'POST';
 
             const res = await fetch(url, {
                 method,
@@ -94,18 +103,20 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
 
             if (!res.ok) {
                 const err = await res.json();
-                throw new Error(err.error || `Failed to ${taskToEdit ? 'update' : 'create'} task`);
+                throw new Error(err.error || `Failed to ${isEdit ? 'update' : 'create'} task`);
             }
 
-            if (!taskToEdit) {
+            if (!isEdit) {
                 setTitle('');
                 setDescription('');
                 setType('FLEXIBLE');
                 setPriority(3);
                 setEstimated(30);
                 setTravel(0);
+                setScheduledStart('');
                 setDeadline('');
                 setSelectedPredecessors([]);
+                setShowPredecessors(false);
             }
 
             onTaskCreated();
@@ -156,7 +167,7 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
                 </div>
             </div>
 
-            <div className={`${styles.row} ${styles['three-col']}`}>
+            <div className={styles.row}>
                 <div className={styles.field}>
                     <label className={styles.label}>Priority (1-5)</label>
                     <input
@@ -177,8 +188,35 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
                         onChange={(e) => setEstimated(parseInt(e.target.value))}
                         className={styles.input}
                     />
+                    <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+                        {Math.floor(estimated / 60)}h {estimated % 60}m
+                    </div>
                 </div>
+            </div>
 
+            <div className={styles.row}>
+                {type === 'FIXED' ? (
+                    <div className={styles.field}>
+                        <label className={styles.label}>Start Time</label>
+                        <input
+                            type="datetime-local"
+                            value={scheduledStart}
+                            onChange={(e) => setScheduledStart(e.target.value)}
+                            className={styles.input}
+                            required
+                        />
+                    </div>
+                ) : (
+                    <div className={styles.field}>
+                        <label className={styles.label}>Deadline (Optional)</label>
+                        <input
+                            type="datetime-local"
+                            value={deadline}
+                            onChange={(e) => setDeadline(e.target.value)}
+                            className={styles.input}
+                        />
+                    </div>
+                )}
                 <div className={styles.field}>
                     <label className={styles.label}>Travel Buffer (min) - Before & After</label>
                     <input
@@ -190,42 +228,44 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
                         className={styles.input}
                     />
                 </div>
-                <div className={styles.field}>
-                    <label className={styles.label}>Deadline (Optional)</label>
-                    <input
-                        type="datetime-local"
-                        value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
-                        className={styles.input}
-                    />
-                </div>
             </div>
 
-            {type === 'FLEXIBLE' && predecessorOptions.length > 0 && (
-                <div className={styles.field}>
-                    <label className={styles.label}>Prerequisites (Same Priority Only)</label>
-                    <div className={styles.chipContainer}>
-                        {predecessorOptions.map(t => {
-                            const isSelected = selectedPredecessors.includes(t.id);
-                            return (
-                                <div
-                                    key={t.id}
-                                    className={`${styles.chip} ${isSelected ? styles.selected : ''}`}
-                                    onClick={() => {
-                                        const current = selectedPredecessors;
-                                        const next = current.includes(t.id)
-                                            ? current.filter(id => id !== t.id)
-                                            : [...current, t.id];
-                                        setSelectedPredecessors(next);
-                                    }}
-                                >
-                                    {t.title}
-                                </div>
-                            );
-                        })}
+            {
+                type === 'FLEXIBLE' && predecessorOptions.length > 0 && (
+                    <div className={styles.field}>
+                        <label
+                            className={styles.label}
+                            onClick={() => setShowPredecessors(!showPredecessors)}
+                            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', userSelect: 'none' }}
+                        >
+                            <span>Prerequisites (Same Priority Only)</span>
+                            <span style={{ fontSize: '0.75rem' }}>{showPredecessors ? '▲' : '▼'}</span>
+                        </label>
+                        {showPredecessors && (
+                            <div className={styles.chipContainer}>
+                                {predecessorOptions.map(t => {
+                                    const isSelected = selectedPredecessors.includes(t.id);
+                                    return (
+                                        <div
+                                            key={t.id}
+                                            className={`${styles.chip} ${isSelected ? styles.selected : ''}`}
+                                            onClick={() => {
+                                                const current = selectedPredecessors;
+                                                const next = current.includes(t.id)
+                                                    ? current.filter(id => id !== t.id)
+                                                    : [...current, t.id];
+                                                setSelectedPredecessors(next);
+                                            }}
+                                        >
+                                            {t.title}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
                     </div>
-                </div>
-            )}
+                )
+            }
 
             <div className={styles.field}>
                 <label className={styles.label}>Description</label>
@@ -245,6 +285,6 @@ export default function TaskForm({ onTaskCreated, taskToEdit }: { onTaskCreated:
             >
                 {loading ? 'Creating...' : 'Add Task'}
             </button>
-        </form>
+        </form >
     );
 }

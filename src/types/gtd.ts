@@ -29,6 +29,8 @@ export interface CreateTaskDTO {
     deadline?: string;
     predecessors?: string[];
     travel_time_minutes?: number;
+    scheduled_start?: string;
+    scheduled_end?: string;
 }
 
 export interface UpdateTaskDTO extends Partial<CreateTaskDTO> {

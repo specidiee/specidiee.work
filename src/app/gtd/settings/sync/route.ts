@@ -111,6 +111,33 @@ export async function POST() {
             if (error) errors.push(error);
         }
 
+        // 4. Handle Deletions (Sync Deletion)
+        // Find tasks in DB that have a google_event_id, are within the sync window, but are NOT in the fetched events.
+
+        const { data: potentialDeletions, error: delCheckError } = await supabase
+            .from('tasks')
+            .select('id, google_event_id, scheduled_start')
+            .not('google_event_id', 'is', null)
+            .gte('scheduled_start', past.toISOString())
+            .lte('scheduled_start', future.toISOString());
+
+        if (!delCheckError && potentialDeletions) {
+            const fetchedIds = new Set(events.map((e: any) => e.id));
+            const toDeleteIds = potentialDeletions
+                .filter(t => t.google_event_id && !fetchedIds.has(t.google_event_id))
+                .map(t => t.id);
+
+            if (toDeleteIds.length > 0) {
+                console.log(`Deleting ${toDeleteIds.length} orphaned tasks`);
+                const { error: delError } = await supabase
+                    .from('tasks')
+                    .delete()
+                    .in('id', toDeleteIds);
+
+                if (delError) errors.push(delError);
+            }
+        }
+
         if (errors.length > 0) {
             return NextResponse.json({ error: 'Some updates failed', details: errors }, { status: 500 });
         }

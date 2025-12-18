@@ -45,32 +45,30 @@ export function generateTimeSlots(
         const isExcluded = excludedTimes.some(ex => {
             if (!ex.is_active) return false;
 
+            // Normalize "HH:mm:ss" to "HH:mm"
+            const exStart = ex.start_time.substring(0, 5);
+            const exEnd = ex.end_time.substring(0, 5);
+
             // Case 1: Standard Time Range (09:00 - 18:00)
-            if (ex.start_time < ex.end_time) {
-                return slotStartStr < ex.end_time && slotEndStr > ex.start_time;
+            if (exStart < exEnd) {
+                return slotStartStr < exEnd && slotEndStr > exStart;
             }
             // Case 2: Wrapping Time Range (22:00 - 06:00)
-            // Excluded if slot is AFTER 22:00 OR BEFORE 06:00
             else {
-                // e.g. Slot 23:00. Start 23:00 > 22:00 (True)
-                // e.g. Slot 05:00. End 05:15 < 06:00 (True)
-
-                // Logic: Intersection with [Start, 24:00) OR [00:00, End)
-
-                const overlapsLate = slotEndStr > ex.start_time; // Slot ends after Start (e.g. 22:15 > 22:00)
-                const overlapsEarly = slotStartStr < ex.end_time; // Slot starts before End (e.g. 05:45 < 06:00)
-
+                const overlapsLate = slotEndStr > exStart; // Slot ends after Start
+                const overlapsEarly = slotStartStr < exEnd; // Slot starts before End
                 return overlapsLate || overlapsEarly;
             }
         });
 
-        if (!isExcluded) {
-            slots.push({
-                start: currentTime,
-                end: nextTime,
-                isAvailable: true,
-            });
-        }
+        // Fix: Instead of filtering out excluded slots, we include them as Unavailable.
+        // This ensures the slots array is contiguous in time, preventing the scheduler
+        // from "jumping" over gaps (e.g., 23:45 -> 09:00) and checking them as adjacent.
+        slots.push({
+            start: currentTime,
+            end: nextTime,
+            isAvailable: !isExcluded, // If excluded, it's not available
+        });
         currentTime = nextTime;
     }
 
