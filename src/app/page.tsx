@@ -83,10 +83,24 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Projects</h2>
           <div className={styles.projectGrid}>
             <a href="https://pokemoem.com" target="_blank" rel="noopener noreferrer" className={styles.projectCard}>
+              <Image
+                src="/images/pokemoem.jpeg"
+                alt="Pokemoem Logo"
+                width={64}
+                height={64}
+                className={styles.projectLogo}
+              />
               <h3 className={styles.projectTitle}>Pokémoem</h3>
               <p className={styles.projectDesc}>An information hub for competitive Pokémon in Korea</p>
             </a>
             <a href="https://moon-chu.com" target="_blank" rel="noopener noreferrer" className={styles.projectCard}>
+              <Image
+                src="/images/moon-chu.jpeg"
+                alt="moon-chu Logo"
+                width={64}
+                height={64}
+                className={styles.projectLogo}
+              />
               <h3 className={styles.projectTitle}>moon-chu</h3>
               <p className={styles.projectDesc}>An AI-powered web application aiming to guide people on how to solve competitive programming problems</p>
             </a>
