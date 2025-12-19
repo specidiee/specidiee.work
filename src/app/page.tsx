@@ -59,7 +59,7 @@ export default function Home() {
           <div className={styles.sectionContent}>
             <ul className={styles.eventList}>
               <li className={styles.eventItem}>
-                Working as a software engineer in <a href="https://www.samsungsds.com/en/index.html" target="_blank" rel="noopener noreferrer" className={styles.link}>Samsung SDS</a>, from January 2025 to December 2025
+                Worked as a software engineer in <a href="https://www.samsungsds.com/en/index.html" target="_blank" rel="noopener noreferrer" className={styles.link}>Samsung SDS</a>, from January 2025 to December 2025
               </li>
               <li className={styles.eventItem}>
                 Studied as an undergraduate student in <a href="https://snu.ac.kr/index.html" target="_blank" rel="noopener noreferrer" className={styles.link}>Seoul National University</a> majoring in Electrical Computer Engineering, from March 2015 to August 2024

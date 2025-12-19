@@ -1,0 +1,24 @@
+---
+title: "[백준] 10464 (XOR)"
+date: "2025-12-01"
+tags: ["PS", "BOJ", "tier:g4", "math"]
+thumbnail: "/images/boj-10464.jpeg"
+description: "Solving BOJ Problem 10464."
+---
+
+### 해설
+
+<Callout type="info" title="XOR이란?">
+  비트 연산 중 하나인 XOR은 두 비트가 다르면 1, 같으면 0을 반환하는 연산입니다.
+</Callout>
+
+임의의 짝수와 바로 다음 홀수에 대해, 두 수는 마지막 비트를 제외한 앞부분이 모두 같기 때문에 $(2k) \oplus (2k + 1) = 1$이 성립합니다.
+
+따라서 0부터 $N$까지의 모든 정수를 XOR한 결과는 $N$을 4로 나눈 나머지에 따라서만 달라집니다.
+
+- $N \mod 4 = 0$: $0 \oplus N = N$
+- $N \mod 4 = 1$: $(N - 1) \oplus N = 1$
+- $N \mod 4 = 2$: $(N - 2) \oplus (N - 1) \oplus N = N + 1$
+- $N \mod 4 = 3$: $(N - 3) \oplus (N - 2) \oplus (N - 1) \oplus N = 0$
+
+이제, $S$부터 $F$까지의 모든 정수를 XOR한 결과는 $0 \oplus 1 \oplus \cdots \oplus (S - 1)$, $0 \oplus 1 \oplus \cdots \oplus F$를 각각 계산한 뒤 결과를 XOR하여 상쇄시키는 방식으로 구할 수 있습니다.
