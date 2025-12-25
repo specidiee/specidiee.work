@@ -1,0 +1,25 @@
+---
+title: "[파이썬] 내장 시퀀스 시작하기"
+date: "2025-11-05"
+tags: ["Programming Language", "Python"]
+thumbnail: "/images/py-2.jpeg"
+description: "내장 시퀀스의 분류부터 살펴봐요."
+---
+
+파이썬 표준 라이브러리는 C로 구현된 다양한 시퀀스(Sequence) 타입을 제공합니다. 이 시퀀스 타입은 두 가지로 분류될 수 있습니다:
+
+- 컨테이너 시퀀스: 서로 다른 타입의 원소들을 저장할 수 있습니다. 원소들에 대한 참조를 보유하고 있습니다.
+    - 예: `list`, `tuple`, `collections.deque`
+- 플랫 시퀀스: 하나의 원시 타입(바이트, 정수, 실수 등)을 가진 원소들을 저장할 수 있습니다. 원소들의 내용을 자신의 메모리 공간에 저장합니다.
+    - 예: `str`, `bytes`, `array.array`
+
+또한, 변경 가능성에 따라 분류할 수 있습니다:
+
+- 뮤터블 시퀀스: 변경 가능합니다.
+    - 예: `list`, `bytearray`, `array.array`, `collections.deque`
+- 이뮤터블 시퀀스: 변경 불가능합니다.
+    - 예: `tuple`, `str`, `bytes`
+
+![출처: Fluent Python 24페이지](/images/fluentpython-24.png)
+
+우리는 아직 클래스 상속에 대해 배우지 않았으므로 위 다이어그램을 이해할 필요는 없습니다. 하지만, 내장 시퀀스들은 `collections.abc.Sequence`와 `collections.abc.MutableSequence`(뮤터블에 한해서만)의 가상 서브클래스로 등록되어 있습니다. 이 다이어그램에서는 뮤터블 시퀀스들이 이뮤터블 시퀀스들의 모든 메서드를 상속받는 동시에 추가적인 메서드를 구현함을 볼 수 있습니다.
