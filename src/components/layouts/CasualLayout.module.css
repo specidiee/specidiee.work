@@ -118,3 +118,72 @@
 .content tr:hover {
     background: rgba(255, 255, 255, 0.05);
 }
+
+/* List Styles */
+.content ul,
+.content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.content li {
+    margin-bottom: 0.5rem;
+}
+
+.content li > ul,
+.content li > ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+
+/* Image Styles */
+.content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Heading Styles within content */
+.content h2 {
+    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-glass);
+    padding-bottom: 0.5rem;
+}
+
+.content h3 {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.content h4 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Blockquote Styles */
+.content blockquote {
+    border-left: 4px solid var(--primary-color, #60a5fa);
+    background: rgba(96, 165, 250, 0.1);
+    margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* HR Styles */
+.content hr {
+    border: none;
+    border-top: 1px solid var(--border-glass);
+    margin: 3rem 0;
+}
