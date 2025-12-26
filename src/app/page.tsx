@@ -59,6 +59,9 @@ export default function Home() {
           <div className={styles.sectionContent}>
             <ul className={styles.eventList}>
               <li className={styles.eventItem}>
+                <Link href="/blog/2025-12-26" className={styles.link}>Now...</Link>
+              </li>
+              <li className={styles.eventItem}>
                 Worked as a software engineer in <a href="https://www.samsungsds.com/en/index.html" target="_blank" rel="noopener noreferrer" className={styles.link}>Samsung SDS</a>, from January 2025 to December 2025
               </li>
               <li className={styles.eventItem}>
