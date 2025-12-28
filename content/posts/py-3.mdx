@@ -1,0 +1,108 @@
+---
+title: "[파이썬] 리스트 컴프리헨션과 제너레이터 표현식"
+date: "2025-11-06"
+tags: ["Programming Language", "Python"]
+thumbnail: "/images/py-3.jpeg"
+description: "시퀀스를 멋지게 생성하는 코드 문법을 알아봅시다."
+---
+
+리스트 컴프리헨션과 제너레이터 표현식은 파이썬에서 시퀀스를 효율적으로 생성하거나 처리하기 위한 강력한 도구입니다. 이 두 구문은 코드를 더 간결하고 가독성 있게 만들어 주며, 때로는 성능 향상을 가져올 수도 있습니다.
+
+## **리스트 컴프리헨션 (List Comprehensions)**
+
+리스트 컴프리헨션은 새 리스트를 만드는 간결한 방법을 제공합니다. 기본 구문은 다음과 같습니다:
+
+```python
+[표현식 for 항목 in 이터러블 if 조건]
+```
+
+이 구문은 `이터러블`에서 각 `항목`을 가져와, 선택적 `조건`을 만족시키는 항목에 대해 `표현식`을 적용한 결과를 새 리스트의 요소로 추가합니다.
+
+## 리스트 컴프리헨션 팁 & 트릭
+
+### 가독성 좋은 리스트 컴프리헨션 구문의 특징
+
+리스트 컴프리헨션은 과도하게 복잡해지면 오히려 가독성을 해칠 수 있습니다. 가독성 좋은 리스트 컴프리헨션의 특징은 다음과 같습니다:
+
+- 간결성: 한 줄로 표현할 수 있는 간단한 로직에 사용합니다.
+    - 좋은 예: `squares = [x**2 for x in range(10)]`
+- 명확성: 의도가 명확히 드러나야 합니다.
+    - 좋은 예: `even_squares = [x**2 for x in range(10) if x % 2 == 0]`
+- 중첩 제한: 중첩된 for 루프나 조건문은 최대 2개까지만 사용합니다.
+    - 좋은 예: `matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]`
+    `flattened = [num for row in matrix for num in row]`
+- 복잡한 로직 회피: 복잡한 계산이나 함수 호출은 별도의 함수로 분리합니다.
+    - 좋은 예:
+        
+        ```python
+        def is_prime(n):
+        		return n > 1 and all(n % i != 0 for i in range(2, int(n**0.5) + 1))
+            
+        primes = [x for x in range(100) if is_prime(x)]
+        ```
+        
+
+### 리스트 컴프리헨션에서 Walrus 연산자 사용하기
+
+Walrus 연산자(`:=`)는 Python 3.8에서 도입되었으며, 표현식 내에서 변수에 값을 할당하고 즉시 사용할 수 있게 해줍니다. 리스트 컴프리헨션에서 이를 활용하면 코드를 더욱 간결하게 만들 수 있습니다.
+
+```python
+# Walrus 연산자를 사용하지 않은 경우
+numbers = [1, 2, 3, 4, 5]
+squares = [num * num for num in numbers if num * num > 10]
+
+# Walrus 연산자를 사용한 경우
+squares = [square for num in numbers if (square := num * num) > 10]
+```
+
+Walrus 연산자를 사용하면 계산을 한 번만 수행하고 그 결과를 조건문과 출력 모두에 사용할 수 있어 효율적입니다. 하지만 과도한 사용은 가독성을 해칠 수 있으므로 주의해야 합니다.
+
+### `map`과 `filter` 대신 리스트 컴프리헨션 사용하기
+
+리스트 컴프리헨션은 `map`과 `filter` 함수의 기능을 더 읽기 쉽고 간결하게 대체할 수 있습니다.
+
+- `map` 대체하기:
+    
+    ```python
+    # map 사용
+    numbers = [1, 2, 3, 4, 5]
+    squares = list(map(lambda x: x**2, numbers))
+    
+    # 리스트 컴프리헨션
+    squares = [x**2 for x in numbers]
+    ```
+    
+- `filter` 대체하기:
+    
+    ```python
+    # filter 사용
+    numbers = [1, 2, 3, 4, 5]
+    evens = list(filter(lambda x: x % 2 == 0, numbers))
+    
+    # 리스트 컴프리헨션
+    evens = [x for x in numbers if x % 2 == 0]
+    ```
+    
+- `map`과 `filter` 조합 대체하기:
+    
+    ```python
+    # map, filter 사용
+    numbers = [1, 2, 3, 4, 5]
+    even_squares = list(map(lambda x: x**2, filter(lambda x: x % 2 == 0, numbers)))
+    
+    # 리스트 컴프리헨션
+    even_squares = [x**2 for x in numbers if x % 2 == 0]    
+    ```
+    
+
+리스트 컴프리헨션을 사용하면 코드가 더 파이썬스럽고 읽기 쉬워집니다. 또한 `lambda` 함수를 사용할 필요가 없어 코드가 간결해집니다. 하지만 너무 복잡한 로직을 리스트 컴프리헨션에 담으려고 하면 오히려 가독성이 떨어질 수 있으므로, 적절한 균형을 유지하는 것이 중요합니다.
+
+## **제너레이터 표현식 (Generator Expressions)**
+
+제너레이터 표현식은 리스트 컴프리헨션과 매우 유사한 구문을 가지고 있지만, 대괄호(`[]`) 대신 괄호(`()`)를 사용합니다. 제너레이터 표현식은 한 번에 모든 항목을 메모리에 로딩하는 대신, 필요할 때마다 항목을 하나씩 생성(즉, "지연 계산"을 수행)하는 제너레이터 객체를 생성합니다.
+
+```python
+(표현식 for 항목 in 이터러블 if 조건)
+```
+
+리스트 컴프리헨션과 달리 제너레이터 표현식은 결과를 한 번에 모두 계산하지 않기 때문에, 필요한 만큼의 데이터만 메모리에 유지하면서 처리할 수 있습니다. 이는 특히 파일 처리나 대용량 데이터 처리에서 매우 유용합니다. 또, 다른 생성자의 인자로 직접 사용할 수도 있습니다. (예: `tuple()`, `array.array()`)
