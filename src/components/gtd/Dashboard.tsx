@@ -75,19 +75,22 @@ export default function Dashboard() {
     const { showToast } = useToast();
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this task?')) return;
+        if (!confirm('Are you sure you want to delete this task?')) return false;
 
         try {
             const res = await fetch(`/gtd/tasks/${id}`, { method: 'DELETE' });
             if (res.ok) {
                 fetchTasks();
                 showToast('Task deleted', 'info');
+                return true;
             } else {
                 showToast('Failed to delete task', 'error');
+                return false;
             }
         } catch (e) {
             console.error(e);
             showToast('Error deleting task', 'error');
+            return false;
         }
     };
 
@@ -142,12 +145,25 @@ export default function Dashboard() {
                 <h2 className={styles.subtitle}>{editingTask ? (editingTask.id ? 'Edit Task' : 'New Fixed Task') : 'Add New Task'}</h2>
                 <TaskForm onTaskCreated={handleTaskCreated} taskToEdit={editingTask} />
                 {editingTask && (
-                    <button
-                        onClick={() => setEditingTask(undefined)}
-                        style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#666', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
-                    >
-                        Cancel Edit
-                    </button>
+                    <div style={{ marginTop: '0.5rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                        <button
+                            onClick={() => setEditingTask(undefined)}
+                            style={{ fontSize: '0.9rem', color: '#666', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+                        >
+                            Cancel Edit
+                        </button>
+                        {editingTask.id && (
+                            <button
+                                onClick={async () => {
+                                    const success = await handleDelete(editingTask.id);
+                                    if (success) setEditingTask(undefined);
+                                }}
+                                style={{ fontSize: '0.9rem', color: '#ff4444', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </div>
                 )}
             </div>
 
