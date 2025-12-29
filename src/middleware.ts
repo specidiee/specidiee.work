@@ -2,24 +2,27 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-    console.log('Middleware running for:', request.nextUrl.pathname)
+    // Legacy redirect for old login path
+    if (request.nextUrl.pathname === '/gtd/login') {
+        const loginUrl = new URL('/login', request.url)
+        // Preserve 'from' param if it exists, otherwise default to /gtd
+        const from = request.nextUrl.searchParams.get('from')
+        if (from) loginUrl.searchParams.set('from', from)
+        else loginUrl.searchParams.set('from', '/gtd')
+        return NextResponse.redirect(loginUrl)
+    }
 
-    // Only run for /gtd routes
-    if (request.nextUrl.pathname.startsWith('/gtd')) {
-        console.log('GTD route detected')
-        // Exclude /gtd/login itself to avoid loops
-        if (request.nextUrl.pathname === '/gtd/login') {
-            return NextResponse.next()
-        }
+    const protectedPrefixes = ['/gtd', '/write', '/image']
+    const isProtected = protectedPrefixes.some(prefix =>
+        request.nextUrl.pathname.startsWith(prefix)
+    )
 
+    if (isProtected) {
         const authCookie = request.cookies.get('gtd_auth')
-        console.log('Auth cookie:', authCookie)
 
         if (!authCookie || authCookie.value !== 'authenticated') {
-            console.log('Redirecting to login')
-            const loginUrl = new URL('/gtd/login', request.url)
-            // Optional: Add redirect param to return after login
-            // loginUrl.searchParams.set('from', request.nextUrl.pathname)
+            const loginUrl = new URL('/login', request.url)
+            loginUrl.searchParams.set('from', request.nextUrl.pathname)
             return NextResponse.redirect(loginUrl)
         }
     }

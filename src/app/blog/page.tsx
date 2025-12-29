@@ -53,6 +53,7 @@ export default function BlogIndex() {
                                     alt={post.meta.title}
                                     fill
                                     className={styles.thumbnail}
+                                    unoptimized
                                 />
                             </div>
                         )}

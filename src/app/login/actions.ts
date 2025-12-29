@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 
 export async function login(prevState: any, formData: FormData) {
     const password = formData.get('password') as string
+    const redirectTo = (formData.get('redirectTo') as string) || '/gtd'
     const correctPassword = process.env.GTD_PASSWORD
 
     if (!correctPassword) {
@@ -21,7 +22,7 @@ export async function login(prevState: any, formData: FormData) {
             maxAge: 60 * 60 * 24 * 30,
             path: '/',
         })
-        redirect('/gtd')
+        redirect(redirectTo)
     } else {
         return { message: 'Incorrect password' }
     }

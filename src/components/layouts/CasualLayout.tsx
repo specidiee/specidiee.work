@@ -19,7 +19,7 @@ export default function CasualLayout({ children, meta }: Props) {
                 <div className={styles.heroImage}>
                     {/* Use next/image with logic for remote vs local if needed, 
                  assuming local for now or configured for remote */}
-                    <Image src={meta.thumbnail} alt={meta.title} fill style={{ objectFit: 'cover' }} />
+                    <Image src={meta.thumbnail} alt={meta.title} fill style={{ objectFit: 'cover' }} unoptimized />
                 </div>
             )}
             <header className={styles.header}>
