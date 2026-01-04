@@ -4,6 +4,9 @@ import { useState, useEffect, useTransition } from 'react'
 import dynamic from 'next/dynamic'
 import { getPost, savePost, deletePost } from './actions'
 import styles from './page.module.css'
+import rehypeKatex from 'rehype-katex'
+import remarkMath from 'remark-math'
+import 'katex/dist/katex.css'
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 
@@ -222,6 +225,10 @@ export default function Editor({ posts: initialPosts }: { posts: PostSummary[] }
                             value={content}
                             onChange={(val) => setContent(val || '')}
                             height={500}
+                            previewOptions={{
+                                rehypePlugins: [[rehypeKatex]],
+                                remarkPlugins: [[remarkMath]],
+                            }}
                         />
                     </div>
                 </div>
