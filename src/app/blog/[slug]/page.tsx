@@ -91,6 +91,7 @@ export default async function BlogPost({ params }: Props) {
                         // Custom components can be added here
                         pre: CodeBlock, // For copy button
                         YouTube,
+                        Youtube: YouTube,
                         Callout,
                     }}
                 />
