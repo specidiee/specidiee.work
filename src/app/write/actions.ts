@@ -1,33 +1,46 @@
 'use server'
 
-import fs from 'fs'
-import path from 'path'
 import matter from 'gray-matter'
 import { revalidatePath } from 'next/cache'
-import { gitCommitAndPush } from '@/lib/git'
+import { uploadFileToGitHub, deleteFileFromGitHub, getFileFromGitHub, listDirectoryFromGitHub } from '@/lib/github'
 
-const POSTS_DIR = path.join(process.cwd(), 'content/posts')
+const POSTS_PATH = 'content/posts'
 
 export async function getPosts() {
-    if (!fs.existsSync(POSTS_DIR)) return []
-    const files = fs.readdirSync(POSTS_DIR).filter(f => f.endsWith('.mdx') || f.endsWith('.md'))
-    return files.map(file => {
-        const content = fs.readFileSync(path.join(POSTS_DIR, file), 'utf-8')
-        const { data } = matter(content)
-        return {
-            filename: file,
-            title: data.title || file,
-            date: data.date
+    const result = await listDirectoryFromGitHub(POSTS_PATH)
+    if (!result.success || !result.files) return []
+
+    const posts = await Promise.all(result.files.map(async (file: any) => {
+        if (!file.name.endsWith('.mdx') && !file.name.endsWith('.md')) return null
+
+        try {
+            const fileResult = await getFileFromGitHub(file.path)
+            if (!fileResult.success || !fileResult.content) return null
+
+            const { data } = matter(fileResult.content)
+            return {
+                filename: file.name,
+                title: data.title || file.name,
+                date: data.date
+            }
+        } catch (e) {
+            console.error(`Error reading post ${file.name}:`, e)
+            return null
         }
-    }).sort((a, b) => (new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()))
+    }))
+
+    return posts
+        .filter((p): p is NonNullable<typeof p> => p !== null)
+        .sort((a, b) => (new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()))
 }
 
 export async function getPost(filename: string) {
-    const filePath = path.join(POSTS_DIR, filename)
-    if (!fs.existsSync(filePath)) return null
+    const filePath = `${POSTS_PATH}/${filename}`
+    const result = await getFileFromGitHub(filePath)
 
-    const content = fs.readFileSync(filePath, 'utf-8')
-    const { data, content: markdownBody } = matter(content)
+    if (!result.success || !result.content) return null
+
+    const { data, content: markdownBody } = matter(result.content)
     return {
         frontmatter: data,
         content: markdownBody
@@ -54,20 +67,19 @@ export async function savePost(prevState: any, formData: FormData) {
         if (!safeFilename.endsWith('.mdx')) safeFilename += '.mdx'
 
         const fileContent = matter.stringify(content, frontmatter)
-        const filePath = path.join(POSTS_DIR, safeFilename)
+        const filePath = `${POSTS_PATH}/${safeFilename}`
 
-        const isNew = !fs.existsSync(filePath)
+        const isNewResult = await getFileFromGitHub(filePath)
+        const isNew = !isNewResult.success
 
-        fs.writeFileSync(filePath, fileContent)
-
-        const gitMsg = isNew ? `ADD: Post ${safeFilename}` : `UPDATE: Post ${safeFilename}`
-        const gitResult = await gitCommitAndPush(gitMsg, [`content/posts/${safeFilename}`])
+        const gitMsg = isNew ? `ADD: Post ${safeFilename} via Blog Editor` : `UPDATE: Post ${safeFilename} via Blog Editor`
+        const result = await uploadFileToGitHub(filePath, fileContent, gitMsg)
 
         revalidatePath('/write')
         revalidatePath('/')
 
-        if (!gitResult.success) {
-            return { message: `Saved locally, but Git failed: ${gitResult.error}`, success: true }
+        if (!result.success) {
+            return { message: `Save failed: ${result.error}`, success: false }
         }
 
         return { message: 'Saved successfully', success: true }
@@ -79,14 +91,14 @@ export async function savePost(prevState: any, formData: FormData) {
 
 export async function deletePost(filename: string) {
     try {
-        const filePath = path.join(POSTS_DIR, filename)
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath)
-            await gitCommitAndPush(`DELETE: Post ${filename}`, [`content/posts/${filename}`])
+        const filePath = `${POSTS_PATH}/${filename}`
+        const result = await deleteFileFromGitHub(filePath, `DELETE: Post ${filename} via Blog Editor`)
+
+        if (result.success) {
             revalidatePath('/write')
             revalidatePath('/')
         }
-        return { success: true }
+        return { success: result.success }
     } catch (e) {
         console.error(e)
         return { success: false }

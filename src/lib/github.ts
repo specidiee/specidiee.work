@@ -88,3 +88,49 @@ export async function deleteFileFromGitHub(path: string, message: string) {
         return { success: false, error: e.message }
     }
 }
+
+export async function getFileFromGitHub(path: string) {
+    if (!OWNER || !REPO || !process.env.GITHUB_TOKEN) {
+        throw new Error('Missing GitHub configuration')
+    }
+
+    try {
+        const { data } = await octokit.repos.getContent({
+            owner: OWNER,
+            repo: REPO,
+            path,
+        })
+
+        if (!Array.isArray(data) && data.type === 'file' && data.content) {
+            const content = Buffer.from(data.content, 'base64').toString('utf-8')
+            return { success: true, content, sha: data.sha }
+        }
+        throw new Error('Path is not a file or has no content')
+    } catch (e: any) {
+        console.error('GitHub Get Error:', e)
+        return { success: false, error: e.message }
+    }
+}
+
+export async function listDirectoryFromGitHub(path: string) {
+    if (!OWNER || !REPO || !process.env.GITHUB_TOKEN) {
+        throw new Error('Missing GitHub configuration')
+    }
+
+    try {
+        const { data } = await octokit.repos.getContent({
+            owner: OWNER,
+            repo: REPO,
+            path,
+        })
+
+        if (Array.isArray(data)) {
+            return { success: true, files: data }
+        }
+        return { success: true, files: [] }
+    } catch (e: any) {
+        if (e.status === 404) return { success: true, files: [] }
+        console.error('GitHub List Error:', e)
+        return { success: false, error: e.message }
+    }
+}
