@@ -13,9 +13,10 @@ export function middleware(request: NextRequest) {
     }
 
     const protectedPrefixes = ['/gtd', '/write', '/image']
-    const isProtected = protectedPrefixes.some(prefix =>
-        request.nextUrl.pathname.startsWith(prefix)
-    )
+    const isProtected = protectedPrefixes.some(prefix => {
+        const pathname = request.nextUrl.pathname
+        return pathname === prefix || pathname.startsWith(`${prefix}/`)
+    })
 
     if (isProtected) {
         const authCookie = request.cookies.get('gtd_auth')
