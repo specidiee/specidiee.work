@@ -38,9 +38,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             type: 'article',
             publishedTime: date,
             url: `https://specidiee.work/blog/${slug}`,
+            siteName: 'specidiee.work',
+            locale: 'ko_KR',
             images: [
                 {
                     url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: title,
                 },
             ],
         },
