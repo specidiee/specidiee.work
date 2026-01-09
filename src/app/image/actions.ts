@@ -1,11 +1,7 @@
 'use server'
 
-import fs from 'fs'
-import path from 'path'
 import { revalidatePath } from 'next/cache'
-import { gitCommitAndPush } from '@/lib/git'
-
-const IMAGE_DIR = path.join(process.cwd(), 'public/images')
+import { uploadFileToGitHub, deleteFileFromGitHub } from '@/lib/github'
 
 export async function uploadImage(prevState: any, formData: FormData) {
     try {
@@ -25,35 +21,28 @@ export async function uploadImage(prevState: any, formData: FormData) {
             return { message: 'Invalid filename. Use only letters, numbers, -, _, .' }
         }
 
-        // Add extension if missing?
-        // Actually, we should probably keep the original extension or require user to type it?
-        // User said "uploading file name should be namable". Usually implies the base name.
-        // I'll take the extension from the file.name and append it if the user didn't provide one matching the type.
-        // Or just trust the user provided filename is the full name.
-        // Let's assume user provides "my-image" and we append extension, or user provides "my-image.jpg".
-        // Safer to use original extension.
-
-        const ext = path.extname(file.name)
+        const ext = file.name.split('.').pop()
         let finalFilename = filename
-        if (!filename.endsWith(ext)) {
-            finalFilename = filename + ext
+        if (ext && !filename.toLowerCase().endsWith(`.${ext.toLowerCase()}`)) {
+            finalFilename = `${filename}.${ext}`
         }
 
         const buffer = Buffer.from(await file.arrayBuffer())
-        const filePath = path.join(IMAGE_DIR, finalFilename)
+        const githubPath = `public/images/${finalFilename}`
 
-        fs.writeFileSync(filePath, buffer)
-
-        // Git sync
-        const gitResult = await gitCommitAndPush(`ADD: Image ${finalFilename}`, [`public/images/${finalFilename}`])
+        const result = await uploadFileToGitHub(
+            githubPath,
+            buffer,
+            `ADD: Image ${finalFilename} via Image Manager`
+        )
 
         revalidatePath('/image')
 
-        if (!gitResult.success) {
-            return { message: `Saved locally, but Git failed: ${gitResult.error}` }
+        if (!result.success) {
+            return { message: `Upload failed: ${result.error}` }
         }
 
-        return { message: 'Upload successful', success: true }
+        return { message: 'Upload successful. It may take a minute to appear on the site.', success: true }
     } catch (e: any) {
         console.error(e)
         return { message: `Upload failed: ${e.message}` }
@@ -65,11 +54,16 @@ export async function deleteImage(formData: FormData) {
     if (!filename) return
 
     try {
-        const filePath = path.join(IMAGE_DIR, filename)
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath)
-            await gitCommitAndPush(`DELETE: Image ${filename}`, [`public/images/${filename}`])
+        const githubPath = `public/images/${filename}`
+        const result = await deleteFileFromGitHub(
+            githubPath,
+            `DELETE: Image ${filename} via Image Manager`
+        )
+
+        if (result.success) {
             revalidatePath('/image')
+        } else {
+            console.error('Delete failed:', result.error)
         }
     } catch (e) {
         console.error('Delete failed:', e)
