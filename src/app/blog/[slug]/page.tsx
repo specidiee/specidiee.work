@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { getPostBySlug, getPostSlugs } from '@/lib/mdx';
+import { getPostBySlug, getPostSlugs, getInteractivePostBySlug, getInteractivePostSlugs } from '@/lib/mdx';
 import CasualLayout from '@/components/layouts/CasualLayout';
 import Comments from '@/components/comments/Giscus';
 import remarkMath from 'remark-math';
@@ -10,6 +10,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import YouTube from '@/components/mdx/YouTube';
 import Callout from '@/components/mdx/Callout';
 import CodeBlock from '@/components/mdx/CodeBlock';
+import { interactiveComponents } from '@content/interactive/index';
 
 import type { Metadata } from 'next';
 
@@ -20,7 +21,15 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+    let post = getPostBySlug(slug);
+
+    // Try interactive post if MDX not found
+    if (!post) {
+        const interactivePost = getInteractivePostBySlug(slug);
+        if (interactivePost) {
+            post = { slug: interactivePost.slug, meta: interactivePost.meta, content: '' };
+        }
+    }
 
     if (!post) {
         return {};
@@ -59,49 +68,75 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-    const slugs = getPostSlugs();
-    return slugs.map((file) => ({
-        slug: file.replace(/\.mdx?$/, ''),
-    }));
+    const mdxSlugs = getPostSlugs();
+    const interactiveSlugs = getInteractivePostSlugs();
+
+    const allParams = [
+        ...mdxSlugs.map((file) => ({
+            slug: file.replace(/\.mdx?$/, ''),
+        })),
+        ...interactiveSlugs.map((slug) => ({
+            slug,
+        }))
+    ];
+
+    return allParams;
 }
 
 export default async function BlogPost({ params }: Props) {
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+    const mdxPost = getPostBySlug(slug);
 
-    if (!post) {
-        notFound();
+    // Try MDX post first
+    if (mdxPost) {
+        const { meta, content } = mdxPost;
+
+        const mdxOptions = {
+            remarkPlugins: [remarkMath, remarkGfm],
+            rehypePlugins: [
+                rehypeKatex,
+                [rehypePrettyCode, {
+                    theme: 'github-dark',
+                    keepBackground: true,
+                }]
+            ],
+        };
+
+        return (
+            <main className="min-h-screen bg-[var(--bg-space)]">
+                <CasualLayout meta={meta}>
+                    <MDXRemote
+                        source={content}
+                        options={{ parseFrontmatter: true, mdxOptions: mdxOptions as any }}
+                        components={{
+                            // Custom components can be added here
+                            pre: CodeBlock, // For copy button
+                            YouTube,
+                            Youtube: YouTube,
+                            Callout,
+                        }}
+                    />
+                    <Comments />
+                </CasualLayout>
+            </main>
+        );
     }
 
-    const { meta, content } = post;
+    // Try interactive component
+    const interactivePost = getInteractivePostBySlug(slug);
+    if (interactivePost) {
+        // Get component from registry
+        const Component = interactiveComponents[slug];
 
-    const mdxOptions = {
-        remarkPlugins: [remarkMath, remarkGfm],
-        rehypePlugins: [
-            rehypeKatex,
-            [rehypePrettyCode, {
-                theme: 'github-dark',
-                keepBackground: true,
-            }]
-        ],
-    };
+        return (
+            <main className="min-h-screen bg-[var(--bg-space)]">
+                <CasualLayout meta={interactivePost.meta}>
+                    <Component />
+                    <Comments />
+                </CasualLayout>
+            </main>
+        );
+    }
 
-    return (
-        <main className="min-h-screen bg-[var(--bg-space)]">
-            <CasualLayout meta={meta}>
-                <MDXRemote
-                    source={content}
-                    options={{ parseFrontmatter: true, mdxOptions: mdxOptions as any }}
-                    components={{
-                        // Custom components can be added here
-                        pre: CodeBlock, // For copy button
-                        YouTube,
-                        Youtube: YouTube,
-                        Callout,
-                    }}
-                />
-                <Comments />
-            </CasualLayout>
-        </main>
-    );
+    notFound();
 }

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BojPost } from '@/lib/boj';
 import styles from './ProblemCard.module.css';
 
@@ -32,7 +33,8 @@ export default function ProblemCard({ post }: Props) {
         step,
         stepName,
         tier,
-        recommendations
+        recommendations,
+        thumbnail
     } = post;
 
     // Format tier for display (e.g., 's3' -> 'Silver 3', 'g1' -> 'Gold 1')
@@ -42,6 +44,15 @@ export default function ProblemCard({ post }: Props) {
 
     return (
         <div className={`${styles.card} glass-card`} style={{ borderLeft: `4px solid ${tierColor}` }}>
+            {thumbnail && (
+                <Image
+                    src={thumbnail}
+                    alt={`${title} thumbnail`}
+                    width={60}
+                    height={60}
+                    className={styles.thumbnail}
+                />
+            )}
             <div className={styles.header}>
                 <div className={styles.badges}>
                     <span className={styles.tierBadge} style={{ backgroundColor: tierColor }}>

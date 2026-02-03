@@ -43,6 +43,11 @@ export default function BlogIndex() {
                                         #{tag}
                                     </span>
                                 ))}
+                                {post.meta.type === 'interactive' && (
+                                    <span className={styles.layoutBadge}>
+                                        Interactive
+                                    </span>
+                                )}
                             </div>
                         </div>
 

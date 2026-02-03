@@ -16,6 +16,18 @@
     box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
+.thumbnail {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-glass);
+    opacity: 0.8;
+}
+
 .header {
     display: flex;
     flex-direction: column;

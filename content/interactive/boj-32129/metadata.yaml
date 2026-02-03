@@ -1,0 +1,13 @@
+title: "[백준] 32129 (마법 구슬)"
+date: "2026-02-03"
+tags:
+  - PS
+  - BOJ
+  - tier:p3
+  - math
+  - implementation
+thumbnail: "/images/boj-32129.jpeg"
+description: "계단 추상화와 분할 상환 분석으로 O(N + Q)에 해결하기"
+recommendations: []
+layout: casual
+type: interactive

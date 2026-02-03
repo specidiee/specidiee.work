@@ -1,9 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import yaml from 'yaml';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 const pagesDirectory = path.join(process.cwd(), 'content/pages');
+const interactiveDirectory = path.join(process.cwd(), 'content/interactive');
 
 export type SimpleMetadata = {
   title: string;
@@ -13,8 +15,14 @@ export type SimpleMetadata = {
   tags?: string[];
   recommendations?: string[];
   thumbnail?: string;
-  type?: 'post' | 'page';
+  type?: 'post' | 'page' | 'interactive';
   slug: string;
+}
+
+export type InteractivePost = {
+  slug: string;
+  meta: SimpleMetadata;
+  componentPath: string;
 }
 
 export function getPostSlugs() {
@@ -45,11 +53,62 @@ export function getPostBySlug(slug: string) {
   };
 }
 
+export function getInteractivePostSlugs(): string[] {
+  if (!fs.existsSync(interactiveDirectory)) return [];
+  return fs.readdirSync(interactiveDirectory).filter((file) => {
+    const fullPath = path.join(interactiveDirectory, file);
+    return fs.statSync(fullPath).isDirectory();
+  });
+}
+
+export function getInteractivePostBySlug(slug: string): InteractivePost | null {
+  const postDir = path.join(interactiveDirectory, slug);
+  const metadataPath = path.join(postDir, 'metadata.yaml');
+  const componentPath = path.join(postDir, 'component.tsx');
+
+  if (!fs.existsSync(metadataPath) || !fs.existsSync(componentPath)) {
+    return null;
+  }
+
+  const metadataContents = fs.readFileSync(metadataPath, 'utf8');
+  const data = yaml.parse(metadataContents);
+
+  return {
+    slug,
+    meta: {
+      ...data,
+      slug,
+      type: 'interactive',
+      date: data.date ? new Date(data.date).toISOString() : new Date().toISOString()
+    } as SimpleMetadata,
+    componentPath: `/content/interactive/${slug}/component`
+  };
+}
+
+export function getAllInteractivePosts(): InteractivePost[] {
+  const slugs = getInteractivePostSlugs();
+  return slugs
+    .map((slug) => getInteractivePostBySlug(slug))
+    .filter((post): post is NonNullable<typeof post> => post !== null);
+}
+
 export function getAllPosts() {
   const slugs = getPostSlugs();
-  const posts = slugs
+  const mdxPosts = slugs
     .map((slug) => getPostBySlug(slug))
-    .filter((post): post is NonNullable<typeof post> => post !== null)
-    .sort((post1, post2) => (post1.meta.date > post2.meta.date ? -1 : 1));
-  return posts;
+    .filter((post): post is NonNullable<typeof post> => post !== null);
+
+  const interactivePosts = getAllInteractivePosts();
+
+  // Merge and sort by date
+  const allPosts = [
+    ...mdxPosts,
+    ...interactivePosts.map(post => ({
+      slug: post.slug,
+      meta: post.meta,
+      content: '' // Interactive posts don't have MDX content
+    }))
+  ].sort((post1, post2) => (post1.meta.date > post2.meta.date ? -1 : 1));
+
+  return allPosts;
 }
