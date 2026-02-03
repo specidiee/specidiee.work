@@ -64,7 +64,13 @@ export function getInteractivePostSlugs(): string[] {
 export function getInteractivePostBySlug(slug: string): InteractivePost | null {
   const postDir = path.join(interactiveDirectory, slug);
   const metadataPath = path.join(postDir, 'metadata.yaml');
-  const componentPath = path.join(postDir, 'component.tsx');
+  const componentTsxPath = path.join(postDir, 'component.tsx');
+  const componentJsxPath = path.join(postDir, 'component.jsx');
+
+  // Check for both .tsx and .jsx extensions
+  const componentPath = fs.existsSync(componentTsxPath)
+    ? componentTsxPath
+    : componentJsxPath;
 
   if (!fs.existsSync(metadataPath) || !fs.existsSync(componentPath)) {
     return null;
