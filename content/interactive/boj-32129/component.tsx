@@ -289,7 +289,7 @@ const OrbSimulator = () => {
             color: C.text, padding: "6px 12px", fontSize: 14, fontFamily: "monospace", width: 200,
           }}
         />
-        <Btn small onClick={() => initSim(10)}>시뮬레이션 시작</Btn>
+        <Btn small onClick={() => initSim(10)}>구슬 10개</Btn>
         <Btn small onClick={() => initSim(30)}>구슬 30개</Btn>
       </div>
 
@@ -355,10 +355,10 @@ const OrbSimulator = () => {
    ════════════════════════════════════════════════ */
 const StairExplainer = () => {
   const examples = [
-    { values: [4, 3, 2, 5, 4], label: "2개의 계단", desc: "[4,3,2]와 [5,4]" },
+    { values: [4, 3, 2, 5, 4], label: "2개의 계단", desc: "[4, 3, 2]와 [5, 4]" },
     { values: [5, 4, 3, 2, 1], label: "1개의 계단", desc: "전체가 하나의 내림차순" },
     { values: [1, 2, 3, 4, 5], label: "5개의 계단", desc: "오름차순이면 모두 별개" },
-    { values: [3, 2, 5, 4, 3, 7, 6], label: "3개의 계단", desc: "[3,2], [5,4,3], [7,6]" },
+    { values: [3, 2, 5, 4, 3, 7, 6], label: "3개의 계단", desc: "[3, 2], [5, 4, 3], [7, 6]" },
   ];
   const [selected, setSelected] = useState(0);
   const ex = examples[selected];
@@ -422,7 +422,7 @@ const MergeVisualizer = () => {
       values: [4, 3, 2, 5, 4],
       groups: [[0, 1, 2], [3, 4]],
       label: "구슬 3개 후",
-      note: "계단 1: [4,3,2], 계단 2: [5,4]",
+      note: "계단 1: [4, 3, 2], 계단 2: [5, 4]",
       detail: "1번 구역의 가치를 높여 계단 1의 최솟값을 올린다",
     },
     {
