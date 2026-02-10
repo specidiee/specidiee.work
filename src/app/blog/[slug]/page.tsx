@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getPostBySlug, getPostSlugs, getInteractivePostBySlug, getInteractivePostSlugs } from '@/lib/mdx';
 import CasualLayout from '@/components/layouts/CasualLayout';
-import Comments from '@/components/comments/Giscus';
+import CommentSystem from '@/components/comments/CommentSystem';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
@@ -116,7 +116,7 @@ export default async function BlogPost({ params }: Props) {
                             Callout,
                         }}
                     />
-                    <Comments />
+                    <CommentSystem postSlug={slug} postTitle={meta.title} />
                 </CasualLayout>
             </main>
         );
@@ -132,7 +132,7 @@ export default async function BlogPost({ params }: Props) {
             <main className="min-h-screen bg-[var(--bg-space)]">
                 <CasualLayout meta={interactivePost.meta}>
                     <Component />
-                    <Comments />
+                    <CommentSystem postSlug={slug} postTitle={interactivePost.meta.title} />
                 </CasualLayout>
             </main>
         );

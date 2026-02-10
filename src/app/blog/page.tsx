@@ -3,14 +3,34 @@ import Image from 'next/image';
 import { getAllPosts } from '@/lib/mdx';
 import { Metadata } from 'next';
 import styles from './page.module.css';
+import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
     title: 'Blog | specidiee.work',
     description: 'Writings on Math, CS, and Life.',
 };
 
-export default function BlogIndex() {
+async function getCommentCounts() {
+    try {
+        const comments = await prisma.comment.groupBy({
+            by: ['postSlug'],
+            _count: {
+                id: true,
+            },
+        });
+
+        return Object.fromEntries(
+            comments.map(c => [c.postSlug, c._count.id])
+        );
+    } catch (error) {
+        console.error('Error fetching comment counts:', error);
+        return {};
+    }
+}
+
+export default async function BlogIndex() {
     const posts = getAllPosts();
+    const commentCounts = await getCommentCounts();
 
     return (
         <main className={styles.main}>
@@ -38,16 +58,23 @@ export default function BlogIndex() {
                             </p>
 
                             <div className={styles.footer}>
-                                {post.meta.tags?.map(tag => (
-                                    <span key={tag} className={styles.tag}>
-                                        #{tag}
+                                <div className={styles.tags}>
+                                    {post.meta.tags?.map(tag => (
+                                        <span key={tag} className={styles.tag}>
+                                            #{tag}
+                                        </span>
+                                    ))}
+                                </div>
+                                <div className={styles.badges}>
+                                    <span className={styles.commentCount}>
+                                        💬 {commentCounts[post.slug] || 0}
                                     </span>
-                                ))}
-                                {post.meta.type === 'interactive' && (
-                                    <span className={styles.layoutBadge}>
-                                        Interactive
-                                    </span>
-                                )}
+                                    {post.meta.type === 'interactive' && (
+                                        <span className={styles.layoutBadge}>
+                                            Interactive
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
