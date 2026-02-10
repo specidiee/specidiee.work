@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     });
 
     // 최상위 댓글만 반환 (replies는 이미 포함되어 있음)
-    const topLevelComments = comments.filter(comment => !comment.parentId);
+    const topLevelComments = comments.filter((comment: { parentId: string | null }) => !comment.parentId);
 
     return NextResponse.json({ comments: topLevelComments });
   } catch (error) {
