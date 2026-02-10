@@ -20,7 +20,7 @@ async function getCommentCounts() {
         });
 
         return Object.fromEntries(
-            comments.map(c => [c.postSlug, c._count.id])
+            comments.map((c: { postSlug: string; _count: { id: number } }) => [c.postSlug, c._count.id])
         );
     } catch (error) {
         console.error('Error fetching comment counts:', error);
