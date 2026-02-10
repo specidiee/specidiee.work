@@ -66,14 +66,14 @@ export default async function BlogIndex() {
                                     ))}
                                 </div>
                                 <div className={styles.badges}>
-                                    <span className={styles.commentCount}>
-                                        💬 {commentCounts[post.slug] || 0}
-                                    </span>
                                     {post.meta.type === 'interactive' && (
                                         <span className={styles.layoutBadge}>
                                             Interactive
                                         </span>
                                     )}
+                                    <span className={styles.commentCount}>
+                                        💬 {commentCounts[post.slug] || 0}
+                                    </span>
                                 </div>
                             </div>
                         </div>
