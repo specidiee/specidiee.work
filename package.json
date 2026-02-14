@@ -24,7 +24,7 @@
     "js-yaml": "^4.1.1",
     "katex": "^0.16.28",
     "next": "16.0.10",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote": "^6.0.0",
     "pg": "^8.18.0",
     "prisma": "^7.3.0",
     "react": "19.2.1",
