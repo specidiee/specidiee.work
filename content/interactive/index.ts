@@ -6,6 +6,7 @@ import MLOneOneBlog from './ml-1-1/component';
 import NetworkFundamentalsBlog from './network-1/component';
 import MagicSquareBlog from './boj-1307/component';
 import MLOneTwoBlog from './ml-1-2/component';
+import LAOneOneBlog from './la-1-1/component';
 
 // Component mapping for dynamic imports
 export const interactiveComponents: Record<string, any> = {
@@ -16,4 +17,5 @@ export const interactiveComponents: Record<string, any> = {
   'network-1': NetworkFundamentalsBlog,
   'boj-1307': MagicSquareBlog,
   'ml-1-2': MLOneTwoBlog,
+  'la-1-1': LAOneOneBlog,
 };
