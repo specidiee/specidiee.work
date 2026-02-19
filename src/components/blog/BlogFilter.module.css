@@ -1,0 +1,74 @@
+.filterBar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.filterChip {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 9999px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.filterChip:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.filterChip.active {
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.25), rgba(232, 121, 249, 0.25));
+    border-color: rgba(232, 121, 249, 0.5);
+    color: var(--text-primary);
+}
+
+.filterStatus {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.resultCount {
+    font-weight: 500;
+    color: var(--text-accent);
+}
+
+.clearButton {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s ease;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.clearButton:hover {
+    color: var(--text-primary);
+}
+
+.tagHighlight {
+    background: rgba(232, 121, 249, 0.15) !important;
+    border: 1px solid rgba(232, 121, 249, 0.4);
+    color: var(--text-primary) !important;
+}
+
+.emptyMessage {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 0.95rem;
+}
