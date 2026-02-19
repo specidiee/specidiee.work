@@ -1,0 +1,13 @@
+title: "[백준] 1055 (끝이없음)"
+date: "2026-02-19"
+tags:
+  - PS
+  - BOJ
+  - tier:p3
+  - implementation
+  - recursion
+thumbnail: "/images/boj-1055.jpeg"
+description: "문자열을 끝없이 치환하는 문제"
+recommendations: []
+layout: casual
+type: interactive
