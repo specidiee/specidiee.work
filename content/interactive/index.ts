@@ -8,6 +8,7 @@ import MagicSquareBlog from './boj-1307/component';
 import MLOneTwoBlog from './ml-1-2/component';
 import LAOneOneBlog from './la-1-1/component';
 import MLTwoOneBlog from './ml-2-1/component';
+import LAOneTwoBlog from './la-1-2/component';
 
 // Component mapping for dynamic imports
 export const interactiveComponents: Record<string, any> = {
@@ -20,4 +21,5 @@ export const interactiveComponents: Record<string, any> = {
   'ml-1-2': MLOneTwoBlog,
   'la-1-1': LAOneOneBlog,
   'ml-2-1': MLTwoOneBlog,
+  'la-1-2': LAOneTwoBlog,
 };
