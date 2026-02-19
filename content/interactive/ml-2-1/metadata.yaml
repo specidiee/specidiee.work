@@ -1,0 +1,7 @@
+title: "[머신러닝] 선형 분류와 회귀 (Linear Classification and Regression)"
+date: "2026-02-19"
+tags:
+  - ML
+thumbnail: "/images/ml-2-1.jpeg"
+description: "실제로 어떻게 학습이 이루어지는지 가장 간단한 사례부터 살펴봐요."
+type: interactive
