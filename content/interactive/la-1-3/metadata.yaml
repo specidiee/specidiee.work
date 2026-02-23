@@ -1,0 +1,7 @@
+title: "[선형대수학] 일차독립과 기저"
+date: "2026-02-23"
+tags:
+  - Linear Algebra
+thumbnail: "/images/la-1-3.jpeg"
+description: "생성 집합에서 꼭 필요한 벡터만 남기면 어떻게 될까요?"
+type: interactive
