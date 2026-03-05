@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import yaml from 'yaml';
+import { getAllPdfPosts } from './pdf';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 const pagesDirectory = path.join(process.cwd(), 'content/pages');
@@ -15,7 +16,7 @@ export type SimpleMetadata = {
   tags?: string[];
   recommendations?: string[];
   thumbnail?: string;
-  type?: 'post' | 'page' | 'interactive';
+  type?: 'post' | 'page' | 'interactive' | 'pdf';
   slug: string;
 }
 
@@ -105,6 +106,7 @@ export function getAllPosts() {
     .filter((post): post is NonNullable<typeof post> => post !== null);
 
   const interactivePosts = getAllInteractivePosts();
+  const pdfPosts = getAllPdfPosts();
 
   // Merge and sort by date
   const allPosts = [
@@ -112,8 +114,13 @@ export function getAllPosts() {
     ...interactivePosts.map(post => ({
       slug: post.slug,
       meta: post.meta,
-      content: '' // Interactive posts don't have MDX content
-    }))
+      content: '',
+    })),
+    ...pdfPosts.map(post => ({
+      slug: post.slug,
+      meta: post.meta,
+      content: '',
+    })),
   ].sort((post1, post2) => (post1.meta.date > post2.meta.date ? -1 : 1));
 
   return allPosts;

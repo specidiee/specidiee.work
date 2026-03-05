@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { getPostBySlug, getPostSlugs, getInteractivePostBySlug, getInteractivePostSlugs } from '@/lib/mdx';
+import { getPdfPostBySlug, getPdfSlugs } from '@/lib/pdf';
 import CasualLayout from '@/components/layouts/CasualLayout';
 import CommentSystem from '@/components/comments/CommentSystem';
+import PDFViewer from '@/components/pdf/PDFViewerDynamic';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
@@ -28,6 +30,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         const interactivePost = getInteractivePostBySlug(slug);
         if (interactivePost) {
             post = { slug: interactivePost.slug, meta: interactivePost.meta, content: '' };
+        }
+    }
+
+    // Try PDF post
+    if (!post) {
+        const pdfPost = getPdfPostBySlug(slug);
+        if (pdfPost) {
+            post = { slug: pdfPost.slug, meta: pdfPost.meta, content: '' };
         }
     }
 
@@ -70,14 +80,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export async function generateStaticParams() {
     const mdxSlugs = getPostSlugs();
     const interactiveSlugs = getInteractivePostSlugs();
+    const pdfSlugs = getPdfSlugs();
 
     const allParams = [
         ...mdxSlugs.map((file) => ({
             slug: file.replace(/\.mdx?$/, ''),
         })),
-        ...interactiveSlugs.map((slug) => ({
-            slug,
-        }))
+        ...interactiveSlugs.map((slug) => ({ slug })),
+        ...pdfSlugs.map((slug) => ({ slug })),
     ];
 
     return allParams;
@@ -133,6 +143,19 @@ export default async function BlogPost({ params }: Props) {
                 <CasualLayout meta={interactivePost.meta}>
                     <Component />
                     <CommentSystem postSlug={slug} postTitle={interactivePost.meta.title} />
+                </CasualLayout>
+            </main>
+        );
+    }
+
+    // Try PDF post
+    const pdfPost = getPdfPostBySlug(slug);
+    if (pdfPost) {
+        return (
+            <main className="min-h-screen bg-[var(--bg-space)]">
+                <CasualLayout meta={pdfPost.meta}>
+                    <PDFViewer pdfUrl={pdfPost.pdfUrl} />
+                    <CommentSystem postSlug={slug} postTitle={pdfPost.meta.title} />
                 </CasualLayout>
             </main>
         );
