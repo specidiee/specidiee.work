@@ -22,6 +22,44 @@ const C = {
   question: "#ffd700",
 };
 
+/* ─── Gradient Link ─── */
+const GradLink = ({ href, children }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        fontWeight: 600,
+        textDecoration: "none",
+        background: "linear-gradient(90deg, #60a5fa, #e879f9)",
+        WebkitBackgroundClip: "text",
+        backgroundClip: "text",
+        color: "transparent",
+        position: "relative",
+        display: "inline-block",
+        transition: "all 0.3s ease",
+        textShadow: hovered ? "0 0 15px rgba(232, 121, 249, 0.5)" : "none",
+      }}
+    >
+      {children}
+      <span
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: -2,
+          height: 1,
+          width: hovered ? "100%" : 0,
+          background: "linear-gradient(90deg, #60a5fa, #e879f9)",
+          transition: "width 0.3s ease",
+          display: "block",
+        }}
+      />
+    </a>
+  );
+};
+
 /* ─── Highlighted box ─── */
 const Box = ({ children, color = C.accent, label }) => (
   <div
@@ -1112,22 +1150,6 @@ function SignedUnsignedSection() {
         규칙은 단순합니다: <strong style={{ color: C.accent }}>비트 패턴은 그대로, 해석 방식만 변경</strong>.
       </p>
 
-      <Box color={C.red} label="함정 예시">
-        <span style={{ fontFamily: "var(--font-mono)", color: C.accent }}>-1 &lt; 0u</span>가{' '}
-        <strong style={{ color: C.red }}>거짓</strong>인 이유:
-        <br />
-        -1의 비트 패턴 = 0xFFFFFFFF → unsigned로 재해석 → 4,294,967,295.
-        <br />
-        비교가 <span style={{ fontFamily: "var(--font-mono)" }}>4294967295 &lt; 0</span>이 되어 거짓!
-      </Box>
-
-      <Box color={C.orange} label="실전 함정">
-        <CodeBlock>{`unsigned int len = strlen(input);  // len = 5
-int diff = len - 10;               // unsigned 연산! → 매우 큰 양수
-if (diff < 0) { ... }              // 의도대로 동작하지 않음`}</CodeBlock>
-        안전한 수정: <span style={{ fontFamily: "var(--font-mono)", color: C.green }}>if (len &lt; 10)</span> — unsigned 도메인에서 직접 비교
-      </Box>
-
       <Question number={1} revealed={q1} onReveal={() => setQ1(true)}>
         -1 &lt; 0u의 결과가 참일까요, 거짓일까요? 왜 그런지 비트 패턴을 추적해 보세요.
       </Question>
@@ -1137,6 +1159,13 @@ if (diff < 0) { ... }              // 의도대로 동작하지 않음`}</CodeBl
         비교가 4294967295 &lt; 0이 되어 거짓이 되죠.{' '}
         <strong style={{ color: C.yellow }}>비트 패턴은 그대로인데 해석만 바뀌어 전혀 다른 값이 된 것</strong>입니다.
       </Answer>
+
+      <Box color={C.orange} label="실전 함정">
+        <CodeBlock>{`unsigned int len = strlen(input);  // len = 5
+int diff = len - 10;               // unsigned 연산! → 매우 큰 양수
+if (diff < 0) { ... }              // 의도대로 동작하지 않음`}</CodeBlock>
+        안전한 수정: <span style={{ fontFamily: "var(--font-mono)", color: C.green }}>if (len &lt; 10)</span> — unsigned 도메인에서 직접 비교
+      </Box>
 
       {/* Interactive: Signed ↔ Unsigned */}
       <Panel>
@@ -1692,8 +1721,8 @@ function DataLabSection() {
         6. Data Lab — 이론에서 실전으로
       </SectionTitle>
 
-      <p style={{ color: C.textDim, lineHeight: 1.8 }}>
-        <strong style={{ color: C.accent }}>Data Lab</strong>은 CMU 15-213의 과제로,{' '}
+      <p style={{ color: C.textDim, lineHeight: 1.8 }}><strong style={{ color: C.accent }}>Data Lab</strong>은{' '}
+        <GradLink href="https://csapp.cs.cmu.edu/3e/labs.html">CS:APP의 과제</GradLink>로,{' '}
         <span style={{ fontFamily: "var(--font-mono)", color: C.orange }}>! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span>{' '}
         만으로 함수를 구현하는 퍼즐입니다. 이 포스트에서 다룬 개념들이 어떻게 실전 테크닉으로 연결되는지 살펴봅시다.
       </p>
