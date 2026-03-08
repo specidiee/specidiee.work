@@ -1,0 +1,8 @@
+title: "[CS:APP] 비트, 바이트, 정수"
+date: "2026-03-08"
+tags:
+  - CS:APP
+  - Systems Programming
+thumbnail: "/images/ca-1-1.jpeg"
+description: "동일한 비트 패턴이라도 해석 방식에 따라 전혀 다른 값이 됩니다. 16진수, 비트 연산, 2의 보수, signed/unsigned 변환을 인터랙티브하게 탐구합니다."
+type: interactive
