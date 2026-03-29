@@ -13,6 +13,7 @@ import EndlessBlog from './boj-1055/component';
 import LAOneThreeBlog from './la-1-3/component';
 import BitsAndIntegersBlog from './ca-1-1/component';
 import OSIntroductionBlog from './os-1-1/component';
+import TransformerArchitectureBlog from './llm-interpretability-1-1/component';
 
 // Component mapping for dynamic imports
 export const interactiveComponents: Record<string, any> = {
@@ -30,4 +31,5 @@ export const interactiveComponents: Record<string, any> = {
   'la-1-3': LAOneThreeBlog,
   'ca-1-1': BitsAndIntegersBlog,
   'os-1-1': OSIntroductionBlog,
+  'llm-interpretability-1-1': TransformerArchitectureBlog,
 };
