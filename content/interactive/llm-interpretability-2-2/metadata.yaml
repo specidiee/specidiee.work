@@ -1,0 +1,8 @@
+title: "[LLM 해석가능성] ROME: 피드포워드 네트워크(FFN)의 메모리 편집하기"
+date: "2026-04-05"
+tags:
+  - ML
+  - LLM Interpretability
+thumbnail: "/images/llm-interpretability-2-2.jpg"
+description: "Meng et al.의 ROME 논문을 따라, Causal Tracing으로 사실의 저장 위치를 찾고 Rank-One Model Editing으로 사실을 편집하는 과정을 인터랙티브하게 이해해봅시다."
+type: interactive

@@ -1,0 +1,8 @@
+title: "[LLM 해석가능성] Transformer 내부를 열어보면: 회로로 읽는 언어 모델의 작동 원리"
+date: "2026-04-03"
+tags:
+  - ML
+  - LLM Interpretability
+thumbnail: "/images/llm-interpretability-1-2.jpg"
+description: "Anthropic의 'A Mathematical Framework for Transformer Circuits' 논문을 따라, Transformer를 해석 가능한 회로의 조합으로 분해해봅시다. 0-layer bigram부터 2-layer induction head까지 복잡도를 한 단계씩 올리며 각 단계에서 출현하는 능력을 탐구합니다."
+type: interactive

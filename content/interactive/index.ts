@@ -14,6 +14,9 @@ import LAOneThreeBlog from './la-1-3/component';
 import BitsAndIntegersBlog from './ca-1-1/component';
 import OSIntroductionBlog from './os-1-1/component';
 import TransformerArchitectureBlog from './llm-interpretability-1-1/component';
+import TransformerCircuitsBlog from './llm-interpretability-1-2/component';
+import FFNKeyValueMemoryBlog from './llm-interpretability-2-1/component';
+import ROMEKnowledgeEditingBlog from './llm-interpretability-2-2/component';
 
 // Component mapping for dynamic imports
 export const interactiveComponents: Record<string, any> = {
@@ -32,4 +35,7 @@ export const interactiveComponents: Record<string, any> = {
   'ca-1-1': BitsAndIntegersBlog,
   'os-1-1': OSIntroductionBlog,
   'llm-interpretability-1-1': TransformerArchitectureBlog,
+  'llm-interpretability-1-2': TransformerCircuitsBlog,
+  'llm-interpretability-2-1': FFNKeyValueMemoryBlog,
+  'llm-interpretability-2-2': ROMEKnowledgeEditingBlog,
 };

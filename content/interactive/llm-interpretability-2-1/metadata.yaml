@@ -1,0 +1,8 @@
+title: "[LLM 해석가능성] 피드포워드 네트워크(FFN)를 키-값 메모리로 이해하기"
+date: "2026-04-04"
+tags:
+  - ML
+  - LLM Interpretability
+thumbnail: "/images/llm-interpretability-2-1.jpg"
+description: "Geva et al.의 논문을 따라, Transformer의 Feed-Forward Network가 키-값 메모리로 작동하는 원리를 탐구합니다. FFN이 어떻게 사실적 지식을 저장하는지 인터랙티브하게 이해해봅시다."
+type: interactive
