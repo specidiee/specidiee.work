@@ -19,9 +19,6 @@ export default function Navbar() {
                 <Link href="/blog" className={styles.link}>
                     Blog
                 </Link>
-                <Link href="/projects" className={styles.link}>
-                    Projects
-                </Link>
             </div>
         </nav>
     );

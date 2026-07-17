@@ -63,11 +63,6 @@ export default async function SearchPage({ searchParams }: Props) {
 
             <SearchFilters />
 
-            <div className={styles.bojLink}>
-                Thinking about BOJ problems?{' '}
-                <Link href="/boj">Visit BOJ Archive</Link> for detailed problem search.
-            </div>
-
             {results.length === 0 ? (
                 <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                     No matching posts found.

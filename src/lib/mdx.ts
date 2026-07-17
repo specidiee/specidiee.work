@@ -14,7 +14,6 @@ export type SimpleMetadata = {
   description?: string;
   layout?: 'academic' | 'casual' | 'problem';
   tags?: string[];
-  recommendations?: string[];
   thumbnail?: string;
   type?: 'post' | 'page' | 'interactive' | 'pdf';
   slug: string;

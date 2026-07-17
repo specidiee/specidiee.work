@@ -22,7 +22,6 @@ type Frontmatter = {
     tags: string[]
     thumbnail: string
     description: string
-    recommendations: string[]
 }
 
 const defaultFrontmatter: Frontmatter = {
@@ -30,8 +29,7 @@ const defaultFrontmatter: Frontmatter = {
     date: new Date().toISOString().split('T')[0],
     tags: [],
     thumbnail: '',
-    description: '',
-    recommendations: []
+    description: ''
 }
 
 export default function Editor({ posts: initialPosts }: { posts: PostSummary[] }) {
@@ -41,7 +39,6 @@ export default function Editor({ posts: initialPosts }: { posts: PostSummary[] }
     const [content, setContent] = useState('')
     const [frontmatter, setFrontmatter] = useState<Frontmatter>(defaultFrontmatter)
     const [tagsInput, setTagsInput] = useState('')
-    const [recommendationsInput, setRecommendationsInput] = useState('')
     const [isPending, startTransition] = useTransition()
     const [message, setMessage] = useState('')
 
@@ -59,7 +56,6 @@ export default function Editor({ posts: initialPosts }: { posts: PostSummary[] }
                 setContent(data.content)
                 setFrontmatter({ ...defaultFrontmatter, ...data.frontmatter })
                 setTagsInput(data.frontmatter.tags?.join(', ') || '')
-                setRecommendationsInput(data.frontmatter.recommendations?.join(', ') || '')
                 setMessage('')
             }
         })
@@ -71,7 +67,6 @@ export default function Editor({ posts: initialPosts }: { posts: PostSummary[] }
         setContent('')
         setFrontmatter(defaultFrontmatter)
         setTagsInput('')
-        setRecommendationsInput('')
         setMessage('')
     }
 
@@ -88,8 +83,7 @@ export default function Editor({ posts: initialPosts }: { posts: PostSummary[] }
             const finalFrontmatter = {
                 ...frontmatter,
                 thumbnail,
-                tags: tagsInput.split(',').map(s => s.trim()).filter(Boolean),
-                recommendations: recommendationsInput.split(',').map(s => s.trim()).filter(Boolean)
+                tags: tagsInput.split(',').map(s => s.trim()).filter(Boolean)
             }
 
             const formData = new FormData()
@@ -208,14 +202,6 @@ export default function Editor({ posts: initialPosts }: { posts: PostSummary[] }
                                 className={`${styles.input} ${styles.textarea}`}
                                 value={frontmatter.description || ''}
                                 onChange={e => updateFrontmatter('description', e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.inputGroup} style={{ gridColumn: '1 / -1' }}>
-                            <label className={styles.label}>Recommendations (comma separated)</label>
-                            <input
-                                className={styles.input}
-                                value={recommendationsInput}
-                                onChange={e => setRecommendationsInput(e.target.value)}
                             />
                         </div>
                     </div>

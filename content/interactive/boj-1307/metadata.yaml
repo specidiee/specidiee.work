@@ -3,12 +3,10 @@ date: "2026-02-10"
 tags:
   - PS
   - BOJ
-  - tier:p4
   - math
   - implementation
   - ad_hoc
 thumbnail: "/images/boj-1307.jpeg"
 description: "임의의 크기 마방진 생성하기"
-recommendations: ['l']
 layout: casual
 type: interactive

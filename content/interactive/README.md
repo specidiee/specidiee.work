@@ -22,13 +22,8 @@ date: "YYYY-MM-DD"
 tags:
   - tag1
   - tag2
-  - BOJ  # Include this tag to appear in BOJ archive
-  - tier:XX  # For BOJ problems (e.g., tier:p3, tier:g4)
 description: "Short description of your post"
 thumbnail: "/images/your-image.jpg"  # Optional
-recommendations:  # Optional
-  - g
-  - p
 layout: casual  # Optional: casual (default), academic, or problem
 type: interactive  # Required: must be "interactive"
 ```
@@ -93,7 +88,6 @@ npm run build
 Your interactive post will now:
 - Appear in the blog listing at `/blog`
 - Be accessible at `/blog/your-slug`
-- Appear in BOJ archive at `/boj` (if "BOJ" tag is included)
 - Appear in search results
 - Be statically generated at build time
 
@@ -123,9 +117,8 @@ See `boj-32129/` for a complete example of:
 
 Once created, interactive posts automatically:
 - Merge with MDX posts in blog listing (sorted by date)
-- Filter into BOJ archive (if "BOJ" tag present)
 - Generate static pages at build time
-- Support all existing metadata features (tags, recommendations, thumbnails)
+- Support all existing metadata features (tags, thumbnails)
 - Include comments section via Giscus
 
 No code changes needed in other parts of the application!

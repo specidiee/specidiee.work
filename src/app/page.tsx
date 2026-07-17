@@ -47,9 +47,6 @@ export default function Home() {
           <Link href="/blog" className={styles.button}>
             Read Blog
           </Link>
-          <Link href="/projects" className={styles.button}>
-            Projects
-          </Link>
         </div>
       </div>
 
